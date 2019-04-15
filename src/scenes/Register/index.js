@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { login } from "../../services/session/actions";
+import { register } from "../../services/session/actions";
 import styled from "styled-components";
 
-class Login extends Component {
+class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      name: ""
     };
   }
 
@@ -16,19 +17,21 @@ class Login extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleLogin = event => {
+  handleRegister = event => {
     event.preventDefault();
     const user = this.state.email;
-    this.props.login({
+    this.props.register({
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
+      name: this.state.name,
+      user_type_id: 2
     });
   };
 
   render() {
     return (
-      <StyledForm className="FormLogin">
-        <StyledH2>Team Builder Login</StyledH2>
+      <StyledForm className="FormRegister">
+        <StyledH2>Team Builder Register</StyledH2>
         <StyledInput
           type="text"
           placeholder="Email"
@@ -43,22 +46,28 @@ class Login extends Component {
           value={this.state.password}
           onChange={this.handleChanges}
         />{" "}
+        <StyledInput
+          type="text"
+          placeholder="name"
+          name="name"
+          value={this.state.name}
+          onChange={this.handleChanges}
+        />
         <br />
-        <StyledButton onClick={this.handleLogin}>Log In</StyledButton>
+        <StyledButton onClick={this.handleRegister}>Log In</StyledButton>
       </StyledForm>
     );
   }
 }
 
 const mapStateToProps = state => {
-  console.log(state);
-  return { login: state.login, error: state.error };
+  return { register: state.register, error: state.error };
 };
 
 export default connect(
   mapStateToProps,
-  { login }
-)(Login);
+  { register }
+)(Register);
 
 const StyledForm = styled.form`
   width: 348px;

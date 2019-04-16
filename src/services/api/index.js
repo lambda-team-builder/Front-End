@@ -34,6 +34,23 @@ export const getProjects = ({name, description}) => {
   return axiosWithAuth.get(`${API_URL}/projects/`, {name, description});
 };
 
+// project member slots
+export const addUserToMemberSlot = (member_slot_id, {user_id}) => {
+  return axiosWithAuth.put(`${API_URL}/project_members/${member_slot_id}`, {user_id});
+};
+
+export const removeUserFromMemberSlot = (member_slot_id) => {
+  return axiosWithAuth.put(`${API_URL}/project_members/${member_slot_id}`, {user_id: null});
+};
+
+export const joinMemberSlot = (member_slot_id) => {
+  return axiosWithAuth.put(`${API_URL}/project_members/${member_slot_id}/join`);
+};
+
+export const leaveMemberSlot = (member_slot_id) => {
+  return axiosWithAuth.put(`${API_URL}/project_members/${member_slot_id}/leave`);
+};
+
 // roles
 export const createRole = ({name}) => {
   return axiosWithAuth.post(`${API_URL}/roles/`, {name});

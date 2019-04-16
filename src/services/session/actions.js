@@ -5,9 +5,9 @@ export const REGISTER_START = 'REGISTER_START';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_FAILURE = 'REGISTER_FAILURE';
 
-export const register = ({name, email, password, user_type_id}) => dispatch => {
+export const register = ({name, email, password}) => dispatch => {
   dispatch({ type: REGISTER_START });
-  return axios.post(`${API_URL}/auth/register`, {name, email, password, user_type_id})
+  return axios.post(`${API_URL}/auth/register`, {name, email, password})
     .then(res => {
       localStorage.setItem('userToken', res.data.token);
       dispatch({ type: REGISTER_SUCCESS, payload: res.data });

@@ -24,7 +24,6 @@ class Register extends Component {
       email: this.state.email,
       password: this.state.password,
       name: this.state.name,
-      user_type_id: 2
     });
   };
 
@@ -85,7 +84,7 @@ const StyledForm = styled.form`
 
 const StyledInput = styled.input`
   background-color: rgb(255, 255, 255);
-  color: #b8d9f0;
+  color: #1a1a1a;
   font-size: 1rem;
   border: none;
   font-weight: 100;

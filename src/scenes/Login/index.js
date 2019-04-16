@@ -51,7 +51,6 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
   return { login: state.login, error: state.error };
 };
 
@@ -76,7 +75,7 @@ const StyledForm = styled.form`
 
 const StyledInput = styled.input`
   background-color: rgb(255, 255, 255);
-  color: #b8d9f0;
+  color: #1a1a1a;
   font-size: 1rem;
   border: none;
   font-weight: 100;

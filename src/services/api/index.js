@@ -27,71 +27,71 @@ export const login = ({email, password}) => {
 
 // projects
 export const createProject = ({name, description}) => {
-  return axiosWithAuth.post(`${API_URL}/projects/`, {name, description});
+  return axiosWithAuth().post(`${API_URL}/projects/`, {name, description});
 };
 
 export const getProjects = ({name, description}) => {
-  return axiosWithAuth.get(`${API_URL}/projects/`, {name, description});
+  return axiosWithAuth().get(`${API_URL}/projects/`, {name, description});
 };
 
 // project member slots
 export const addUserToMemberSlot = (member_slot_id, {user_id}) => {
-  return axiosWithAuth.put(`${API_URL}/project_members/${member_slot_id}`, {user_id});
+  return axiosWithAuth().put(`${API_URL}/project_members/${member_slot_id}`, {user_id});
 };
 
 export const removeUserFromMemberSlot = (member_slot_id) => {
-  return axiosWithAuth.put(`${API_URL}/project_members/${member_slot_id}`, {user_id: null});
+  return axiosWithAuth().put(`${API_URL}/project_members/${member_slot_id}`, {user_id: null});
 };
 
 export const joinMemberSlot = (member_slot_id) => {
-  return axiosWithAuth.put(`${API_URL}/project_members/${member_slot_id}/join`);
+  return axiosWithAuth().put(`${API_URL}/project_members/${member_slot_id}/join`);
 };
 
 export const leaveMemberSlot = (member_slot_id) => {
-  return axiosWithAuth.put(`${API_URL}/project_members/${member_slot_id}/leave`);
+  return axiosWithAuth().put(`${API_URL}/project_members/${member_slot_id}/leave`);
 };
 
 // roles
 export const createRole = ({name}) => {
-  return axiosWithAuth.post(`${API_URL}/roles/`, {name});
+  return axiosWithAuth().post(`${API_URL}/roles/`, {name});
 };
 
 export const getRoles = () => {
-  return axiosWithAuth.get(`${API_URL}/roles/`);
+  return axiosWithAuth().get(`${API_URL}/roles/`);
 };
 
 export const updateRole = (id, {name}) => {
-  return axiosWithAuth.put(`${API_URL}/roles/${id}`, {name});
+  return axiosWithAuth().put(`${API_URL}/roles/${id}`, {name});
 };
 
 // classrooms
 export const createClassroom = ({name}) => {
-  return axiosWithAuth.post(`${API_URL}/classrooms`, {name});
+  return axiosWithAuth().post(`${API_URL}/classrooms`, {name});
 };
 
 export const editClassroom = (id, {name}) => {
-  return axiosWithAuth.put(`${API_URL}/classrooms/${id}`, {name});
+  return axiosWithAuth().put(`${API_URL}/classrooms/${id}`, {name});
 };
 
 export const getClassroom = (id) => {
-  return axiosWithAuth.get(`${API_URL}/classrooms/${id}`);
+  return axiosWithAuth().get(`${API_URL}/classrooms/${id}`);
 };
 
 export const getClassrooms = () => {
-  return axiosWithAuth.get(`${API_URL}/classrooms/`);
+  return axiosWithAuth().get(`${API_URL}/classrooms/`);
 };
 
 export const addProjectToClassroom = (classroom_id, {project_id}) => {
-  return axiosWithAuth.post(`${API_URL}/classrooms/${classroom_id}`, {project_id});
+  return axiosWithAuth().post(`${API_URL}/classrooms/${classroom_id}`, {project_id});
 };
 
 export const getClasssroomProject = (classroom_id, classroom_project_id) => {
-  return axiosWithAuth
+  return axiosWithAuth()
     .get(`${API_URL}/classrooms/${classroom_id}/projects/${classroom_project_id}`);
 };
 
 export const createMemberSlot = (classroom_id, classroom_project_id, {role_id}) => {
-  return axiosWithAuth
+  return axiosWithAuth()
     .post(`${API_URL}/classrooms/${classroom_id}/projects/${classroom_project_id}/project_member`,
           {role_id});
 };

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { login } from "../../services/session/actions";
 import styled from "styled-components";
+import { getErrorMessage } from '../../services/helper';
 
 class Login extends Component {
   constructor(props) {
@@ -18,7 +19,6 @@ class Login extends Component {
 
   handleLogin = event => {
     event.preventDefault();
-    const user = this.state.email;
     this.props.login({
       email: this.state.email,
       password: this.state.password
@@ -27,8 +27,9 @@ class Login extends Component {
 
   render() {
     return (
-      <StyledForm className="FormLogin">
+      <StyledForm>
         <StyledH2>Team Builder Login</StyledH2>
+        <Error>{getErrorMessage(this.props.authenticationError)}</Error>
         <StyledInput
           type="text"
           placeholder="Email"
@@ -44,14 +45,18 @@ class Login extends Component {
           onChange={this.handleChanges}
         />{" "}
         <br />
-        <StyledButton onClick={this.handleLogin}>Log In</StyledButton>
+        <StyledButton onClick={this.handleLogin}
+                      className={this.props.authentication ? "loading" : ""}>
+          Log In
+        </StyledButton>
       </StyledForm>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return { login: state.login, error: state.error };
+const mapStateToProps = ({session}) => {
+  const { authenticating, authenticationError } = session;
+  return { authenticating, authenticationError };
 };
 
 export default connect(
@@ -106,4 +111,8 @@ const StyledH2 = styled.h2`
   font-size: 2rem;
   margin: 0;
   font-weight: 100;
+`;
+
+const Error = styled.div`
+  color: red;
 `;

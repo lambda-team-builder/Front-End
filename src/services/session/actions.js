@@ -11,7 +11,7 @@ export const register = ({name, email, password}) => dispatch => {
       localStorage.setItem('userToken', res.data.token);
       dispatch({ type: REGISTER_SUCCESS, payload: res.data });
     })
-    .catch(error => dispatch({ type: REGISTER_FAILURE, error: error}));
+    .catch(error => dispatch({ type: REGISTER_FAILURE, error: error }));
 };
 
 export const LOGIN_START = 'LOGIN_START';
@@ -25,5 +25,5 @@ export const login = ({email, password}) => dispatch => {
       localStorage.setItem('userToken', res.data.token);
       dispatch({ type: LOGIN_SUCCESS, payload: res.data });
     })
-    .catch(error => dispatch({ type: LOGIN_FAILURE, error: error}));
+    .catch(error => dispatch({ type: LOGIN_FAILURE, error: error }));
 };

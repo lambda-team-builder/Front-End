@@ -18,7 +18,7 @@ const Home = (props) => {
   // Create classroom and navigate when state is update
   const handleCreateClassroom = event => {
     event.preventDefault();
-    props.createClassroom({name: event.target.name.value})
+    props.createClassroom({name: event.target.name.value, password: event.target.password.value})
       .then(({payload}) => payload && props.history.push(classroomUrl(payload.id, payload.name)));
     // hack to get redirect to work, because props.createdClassroom is still
     // bound to old value. Possible workaround is to set a state variable and
@@ -53,6 +53,7 @@ const Home = (props) => {
              return (
                <form onSubmit={handleCreateClassroom}>
                  <input type="text" name="name" placeholder="name"/>
+                 <input type="password" name="password" placeholder="password"/>
                  <button type="submit">Create Classroom</button>
                </form>);
            default:

@@ -45,6 +45,7 @@ const Classroom = (props) => {
                 </div>
               ))}
             </span>
+            <button>Edit Project</button>
           </div>
         ))}
       </div>

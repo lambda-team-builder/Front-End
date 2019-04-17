@@ -65,8 +65,8 @@ export const updateRole = (id, {name}) => {
 };
 
 // classrooms
-export const createClassroom = ({name}) => {
-  return axiosWithAuth().post(`${API_URL}/classrooms`, {name});
+export const createClassroom = ({name, password}) => {
+  return axiosWithAuth().post(`${API_URL}/classrooms`, {name, password});
 };
 
 export const editClassroom = (id, {name}) => {

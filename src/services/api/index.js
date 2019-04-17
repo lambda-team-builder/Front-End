@@ -82,7 +82,7 @@ export const getClassrooms = () => {
 };
 
 export const addProjectToClassroom = (classroom_id, {project_id}) => {
-  return axiosWithAuth().post(`${API_URL}/classrooms/${classroom_id}`, {project_id});
+  return axiosWithAuth().post(`${API_URL}/classrooms/${classroom_id}/projects`, {project_id});
 };
 
 export const getClasssroomProject = (classroom_id, classroom_project_id) => {

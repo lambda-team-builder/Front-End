@@ -13,7 +13,7 @@ const App = props => {
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
       <Route path="/home" component={Home} />
-      <Route path="/c/:classroom_id/:_name/" component={Classroom} />
+      <Route path="/c/:classroom_id/:name?/" component={Classroom} />
     </div>
   );
 };

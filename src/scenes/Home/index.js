@@ -19,7 +19,7 @@ const Home = ({classroomsArr, gettingClassrooms, classroomsError, getClassrooms,
         <div className={gettingClassrooms ? "loading" : ""}>
           {classroomsArr.map(cr => (
             <div key={cr.id}>
-              <Link to={`/${cr.id}/${slugify(cr.name)}`}>
+              <Link to={`/c/${cr.id}/${slugify(cr.name)}`}>
                 {cr.name}
               </Link>
             </div>

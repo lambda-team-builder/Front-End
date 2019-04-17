@@ -61,7 +61,30 @@ export const removeUserFromSlot = (classroom_id, member_slot_id) => dispatch => 
     .then(res => {
       dispatch({ type: REMOVE_USER_FROM_SLOT_SUCCESS, payload: res.data });
       // return getProject(classroom_id*1, classroom_project_id)(dispatch);
+      // I am aware doing this introduces a race condition where a user can
+      // navigate to a different classroom and that request will execute and
+      // finish before this one, and when this one does it will overwrite it. I
+      // choosing to ignore it for now.
       return getClassroom(classroom_id)(dispatch);
     })
     .catch(error => dispatch({ type: REMOVE_USER_FROM_SLOT_FAILURE, error: error}));
+};
+
+export const CREATE_SLOT_START = 'CREATE_SLOT_START';
+export const CREATE_SLOT_SUCCESS = 'CREATE_SLOT_SUCCESS';
+export const CREATE_SLOT_FAILURE = 'CREATE_SLOT_FAILURE';
+
+export const createSlot = (classroom_id, classroom_project_id, {role_id}) => dispatch => {
+  dispatch({ type: CREATE_SLOT_START });
+  return api.createMemberSlot(classroom_id, classroom_project_id, {role_id})
+    .then(res => {
+      dispatch({ type: CREATE_SLOT_SUCCESS, payload: res.data });
+      // return getProject(classroom_id*1, classroom_project_id)(dispatch);
+      // I am aware doing this introduces a race condition where a user can
+      // navigate to a different classroom and that request will execute and
+      // finish before this one, and when this one does it will overwrite it. I
+      // choosing to ignore it for now.
+      return getClassroom(classroom_id)(dispatch);
+    })
+    .catch(error => dispatch({ type: CREATE_SLOT_FAILURE, error: error}));
 };

@@ -93,7 +93,7 @@ export const getClassroomProject = (classroom_id, classroom_project_id) => {
 
 export const createMemberSlot = (classroom_id, classroom_project_id, {role_id}) => {
   return axiosWithAuth()
-    .post(`${API_URL}/classrooms/${classroom_id}/projects/${classroom_project_id}/project_member`,
+    .post(`${API_URL}/classrooms/${classroom_id}/classroom_projects/${classroom_project_id}/project_members`,
           {role_id});
 };
 

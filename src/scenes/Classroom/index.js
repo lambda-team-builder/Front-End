@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { getClassroom, addProject, editClassroom, removeUserFromSlot } from '../../services/classroom/actions.js';
+import {
+  getClassroom, addProject, editClassroom, removeUserFromSlot, createSlot
+} from '../../services/classroom/actions.js';
 import Modal from '../../components/Modal';
 
 const Classroom = (props) => {
@@ -36,9 +38,9 @@ const Classroom = (props) => {
             <span>{proj.name}</span>
             <span> Description: {proj.description.substring(0, 20)}...</span>
             <span>
-              {proj.roles.map(([role_name, {slots, empty}]) => (
-                <div key={role_name}>
-                  {role_name + " (" + empty + "): "}
+              {proj.roles.map(({name, slots, empty, id}) => (
+                <div key={id}>
+                  {name + " (" + empty + "): "}
                   <span>
                     {slots.map(slot => <span key={slot.id}>{slot.user_name || "empty"}</span>)}
                     {" "}
@@ -72,7 +74,7 @@ const Classroom = (props) => {
                  <button type="submit" disabled>Submit Changes</button>
                </form>
                  <h2>Roles</h2>
-                 {project.roles.map(([name, {slots}]) => (
+                 {project.roles.map(({name, slots}) => (
                    <div key={name}>
                      <div>{name}</div>
                      {slots.map(slot => {
@@ -91,6 +93,7 @@ const Classroom = (props) => {
                                 </div>;
                        }
                      })}
+                     <button onClick={() => props.createSlot(classroom_id, project.id, {})}>Add Slot</button>
                    </div>
                  ))}
                </div>
@@ -108,4 +111,6 @@ const mapStateToProps = ({classroom}) => {
   return classroom;
 };
 
-export default connect(mapStateToProps, { getClassroom, addProject, editClassroom, removeUserFromSlot })(Classroom);
+export default connect(mapStateToProps, {
+  getClassroom, addProject, editClassroom, removeUserFromSlot, createSlot
+})(Classroom);

@@ -1,13 +1,16 @@
 import {
   GET_CLASSROOM_START, GET_CLASSROOM_SUCCESS, GET_CLASSROOM_FAILURE,
+  ADD_PROJECT_START, ADD_PROJECT_SUCCESS, ADD_PROJECT_FAILURE,
 } from './actions.js';
 
 const initialState = {
   id: null,
-  name: null,
+  name: "",
   projects: [],
   gettingClassroom: false,
-  classroomError: null
+  classroomError: null,
+  addingProject: false,
+  addingProjectError: null
 };
 
 export const classroomReducer = (state = initialState, action) => {
@@ -41,6 +44,24 @@ export const classroomReducer = (state = initialState, action) => {
       classroom: {},
       gettingClassroom: false,
       classroomError: action.error
+    };
+  case ADD_PROJECT_START:
+    return {
+      ...state,
+      addingProject: true,
+      addingProjectError: null
+    };
+  case ADD_PROJECT_SUCCESS:
+    return {
+      ...state,
+      addingProject: false,
+      addingProjectError: null
+    };
+  case ADD_PROJECT_FAILURE:
+    return {
+      ...state,
+      addingProject: false,
+      addingProjectError: action.error
     };
   default:
     return state;

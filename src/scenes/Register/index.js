@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { register } from "../../services/session/actions";
 import styled from "styled-components";
+import Error from '../../components/Error';
 
 class Register extends Component {
   constructor(props) {
@@ -19,18 +20,18 @@ class Register extends Component {
 
   handleRegister = event => {
     event.preventDefault();
-    const user = this.state.email;
     this.props.register({
       email: this.state.email,
       password: this.state.password,
       name: this.state.name,
-    });
+    }).then(() => this.props.authenticated && this.props.history.push("/"));
   };
 
   render() {
     return (
       <StyledForm className="FormRegister">
         <StyledH2>Team Builder Register</StyledH2>
+        <Error error={this.props.registrationError}/>
         <StyledInput
           type="text"
           placeholder="Email"
@@ -53,14 +54,18 @@ class Register extends Component {
           onChange={this.handleChanges}
         />
         <br />
-        <StyledButton onClick={this.handleRegister}>Log In</StyledButton>
+        <StyledButton onClick={this.handleRegister}
+                      className={this.props.registering ? "loading" : ""}>
+          Log In
+        </StyledButton>
       </StyledForm>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return { register: state.register, error: state.error };
+const mapStateToProps = ({session}) => {
+  const { registering, registrationError, authenticated } = session;
+  return { registering, registrationError, authenticated };
 };
 
 export default connect(

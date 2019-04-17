@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { login } from "../../services/session/actions";
 import styled from "styled-components";
-import { getErrorMessage } from '../../services/helper';
+import Error from '../../components/Error';
 
 class Login extends Component {
   constructor(props) {
@@ -22,16 +22,14 @@ class Login extends Component {
     this.props.login({
       email: this.state.email,
       password: this.state.password
-    })
-      .then(() => this.props.authenticated && this.props.history.push("/"));
+    }).then(() => this.props.authenticated && this.props.history.push("/"));
   };
 
   render() {
     return (
       <StyledForm>
         <StyledH2>Team Builder Login</StyledH2>
-        {this.props.authenticationError
-         && <Error>{getErrorMessage(this.props.authenticationError)}</Error>}
+        <Error error={this.props.authenticationError}/>
         <StyledInput
           type="text"
           placeholder="Email"
@@ -48,7 +46,7 @@ class Login extends Component {
         />{" "}
         <br />
         <StyledButton onClick={this.handleLogin}
-                      className={this.props.authentication ? "loading" : ""}>
+                      className={this.props.authenticating ? "loading" : ""}>
           Log In
         </StyledButton>
       </StyledForm>
@@ -113,8 +111,4 @@ const StyledH2 = styled.h2`
   font-size: 2rem;
   margin: 0;
   font-weight: 100;
-`;
-
-const Error = styled.div`
-  color: red;
 `;

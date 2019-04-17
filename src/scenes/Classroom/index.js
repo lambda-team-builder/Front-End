@@ -49,12 +49,20 @@ const Classroom = (props) => {
           </div>
         ))}
       </div>
-      {modalTarget === "editClassroom" &&
+      {modalTarget &&
        <Modal handleClose={closeModal}>
-         <form onSubmit={handleEditClassroom}>
-           <input type="text" name="name" palceholder="name"/>
-           <button type="submit">Edit Classroom</button>
-         </form>
+         {(() => {
+           switch (modalTarget) {
+           case "editClassroom":
+             return (
+               <form onSubmit={handleEditClassroom}>
+                 <input type="text" name="name" palceholder="name"/>
+                 <button type="submit">Edit Classroom</button>
+               </form>
+             );
+           default:
+             return null;
+           }})()}
        </Modal>
       }
     </div>

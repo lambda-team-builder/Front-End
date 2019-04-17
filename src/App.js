@@ -3,6 +3,7 @@ import Login from "./scenes/Login";
 import { Route } from "react-router-dom";
 import Register from "./scenes/Register";
 import Home from './scenes/Home';
+import Classroom from './scenes/Classroom';
 import styled from "styled-components";
 
 const App = props => {
@@ -12,6 +13,7 @@ const App = props => {
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
       <Route path="/home" component={Home} />
+      <Route path="/c/:classroom_id/:_name/" component={Classroom} />
     </div>
   );
 };

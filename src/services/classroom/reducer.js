@@ -5,7 +5,7 @@ import {
 
 const initialState = {
   id: null,
-  name: "",
+  name: " ",
   projects: [],
   gettingClassroom: false,
   classroomError: null,
@@ -18,7 +18,9 @@ export const classroomReducer = (state = initialState, action) => {
   case GET_CLASSROOM_START:
     return {
       ...state,
-      classroom: {},
+      id: null,
+      name: " ",
+      projects: [],
       gettingClassroom: true,
       classroomError: null
     };

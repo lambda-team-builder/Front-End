@@ -1,18 +1,12 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getClassroom, addProject } from '../../services/classroom/actions.js';
-import slugify from 'slugify';
 
 const Classroom = (props) => {
   const classroom_id = props.match.params.classroom_id;
   useEffect(() => {
     props.getClassroom(classroom_id);
   }, [classroom_id]);
-  useEffect(() => {
-    if (props.name && props.match.params.name !== slugify(props.name)) {
-      props.history.push(`/c/${classroom_id}/${slugify(props.name)}`);
-    };
-  }, [props.name, props.match.params.name]);
   const handleAddProject = event => {
     event.preventDefault();
     props.addProject(classroom_id, {name: event.target.name.value,

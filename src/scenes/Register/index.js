@@ -56,7 +56,7 @@ class Register extends Component {
         <br />
         <StyledButton onClick={this.handleRegister}
                       className={this.props.registering ? "loading" : ""}>
-          Log In
+          Register
         </StyledButton>
       </StyledForm>
     );

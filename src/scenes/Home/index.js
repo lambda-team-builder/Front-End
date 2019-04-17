@@ -16,13 +16,12 @@ const Home = (props) => {
   // Create classroom and navigate when state is update
   const handleCreateClassroom = event => {
     event.preventDefault();
-    props.createClassroom({name: event.target.name.value});
+    props.createClassroom({name: event.target.name.value})
+      .then(({payload}) => payload && props.history.push(classroomUrl(payload.id, payload.name)));
+    // hack to get redirect to work, because props.createdClassroom is still
+    // bound to old value. Possible workaround is to set a state variable and
+    // then subscribe to it with use effect
   };
-  useEffect(() => {
-    props.createdClassroom && props.createdClassroom.name && props.createdClassroom.id
-      && props.history.push(classroomUrl(props.createdClassroom.id, props.createdClassroom.name));
-  }, [props.createdClassroom]);
-  // modal state
   const [modalTarget, setModalTarget] = useState(null);
   const closeModal = () => setModalTarget(null);
   return (

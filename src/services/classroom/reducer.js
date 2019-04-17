@@ -3,7 +3,9 @@ import {
 } from './actions.js';
 
 const initialState = {
-  classroom: {},
+  id: null,
+  name: null,
+  projects: [],
   gettingClassroom: false,
   classroomError: null
 };
@@ -20,7 +22,7 @@ export const classroomReducer = (state = initialState, action) => {
   case GET_CLASSROOM_SUCCESS:
     return {
       ...state,
-      classroom: action.payload,
+      ...action.payload,
       gettingClassroom: false,
       classroomError: null
     };

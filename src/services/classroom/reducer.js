@@ -16,6 +16,20 @@ const initialState = {
   editClassroomError: null,
 };
 
+const transformRoles = roles => {
+  // makes roles keyed by role_name
+  let newRoles = roles.reduce((acc, role) => (
+    Object.assign(acc, {[role.role_name]: (acc[role.role_name] || []).concat(role)})), {});
+  // transform to array and sort by role_name
+  newRoles = Object.entries(newRoles).sort(([nameA], [nameB]) => nameA < nameB ? 0 : 1);
+  // transform to array with 0 as name and 1 as object with slots arr and number of empty slots
+  newRoles = newRoles.map(([name, slots]) => [name, {
+    slots: slots,
+    empty: slots.filter(s => !s.user_id).length,
+  }]);
+  return newRoles;
+};
+
 export const classroomReducer = (state = initialState, action) => {
   switch (action.type) {
   case GET_CLASSROOM_START:
@@ -32,8 +46,9 @@ export const classroomReducer = (state = initialState, action) => {
     const projects = action.payload.projects.map(p => (
       {
         ...p,
-        roles: p.roles.reduce((acc, role) => (
-          Object.assign(acc, {[role.role_name]: (acc[role.role_name] || []).concat(role)})), {})
+        // roles: p.roles.reduce((acc, role) => (
+        //   Object.assign(acc, {[role.role_name]: (acc[role.role_name] || []).concat(role)})), {})
+        roles: transformRoles(p.roles)
       }
     ));
     return {

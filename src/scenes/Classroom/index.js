@@ -35,10 +35,9 @@ const Classroom = (props) => {
             <span>{proj.name}</span>
             <span> Description: {proj.description.substring(0, 20)}...</span>
             <span>
-              {Object.entries(proj.roles).map(([role_name, slots]) => (
+              {proj.roles.map(([role_name, {slots, empty}]) => (
                 <div key={role_name}>
-                  {role_name}
-                  {": "}
+                  {role_name + " (" + empty + "): "}
                   <span>
                     {slots.map(slot => <span key={slot.id}>{slot.user_name || "empty"}</span>)}
                     {" "}

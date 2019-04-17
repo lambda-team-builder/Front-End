@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { login } from "../../services/session/actions";
 import styled from "styled-components";
+import Error from '../../components/Error';
 
 class Login extends Component {
   constructor(props) {
@@ -18,17 +19,17 @@ class Login extends Component {
 
   handleLogin = event => {
     event.preventDefault();
-    const user = this.state.email;
     this.props.login({
       email: this.state.email,
       password: this.state.password
-    });
+    }).then(() => this.props.authenticated && this.props.history.push("/home"));
   };
 
   render() {
     return (
-      <StyledForm className="FormLogin">
+      <StyledForm>
         <StyledH2>Team Builder Login</StyledH2>
+        <Error error={this.props.authenticationError}/>
         <StyledInput
           type="text"
           placeholder="Email"
@@ -44,15 +45,18 @@ class Login extends Component {
           onChange={this.handleChanges}
         />{" "}
         <br />
-        <StyledButton onClick={this.handleLogin}>Log In</StyledButton>
+        <StyledButton onClick={this.handleLogin}
+                      className={this.props.authenticating ? "loading" : ""}>
+          Log In
+        </StyledButton>
       </StyledForm>
     );
   }
 }
 
-const mapStateToProps = state => {
-  console.log(state);
-  return { login: state.login, error: state.error };
+const mapStateToProps = ({session}) => {
+  const { authenticating, authenticationError, authenticated } = session;
+  return { authenticating, authenticationError, authenticated };
 };
 
 export default connect(
@@ -76,7 +80,7 @@ const StyledForm = styled.form`
 
 const StyledInput = styled.input`
   background-color: rgb(255, 255, 255);
-  color: #b8d9f0;
+  color: #1a1a1a;
   font-size: 1rem;
   border: none;
   font-weight: 100;

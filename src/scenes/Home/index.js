@@ -1,78 +1,87 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { add } from "../../services/session/actions";
-import styled from "styled-components";
+import {
+  getClassrooms,
+  createClassroom
+} from "../../services/classrooms/actions.js";
+import Error from "../../components/Error";
+import { Link } from "react-router-dom";
+import slugify from "slugify";
+import Modal from "../../components/Modal";
 
-class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      programType: ""
-    };
-  }
+const classroomUrl = (id, name) => `/c/${id}/${slugify(name)}`;
 
-  handleChanges = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
+const Home = props => {
+  // Initial data fetch
+  useEffect(() => {
+    props.getClassrooms();
+  }, []);
+  const [filter, setFilter] = useState("");
+  const handleFilter = event => setFilter(event.target.value);
 
-  handleAddProgram = event => {
+  // Create classroom and navigate when state is update
+  const handleCreateClassroom = event => {
     event.preventDefault();
-    const programType = this.state.programType;
-    this.props.add({ programType: this.state.programType });
-    this.setState({ programType: "" });
+    props
+      .createClassroom({ name: event.target.name.value })
+      .then(
+        ({ payload }) =>
+          payload && props.history.push(classroomUrl(payload.id, payload.name))
+      );
+    // hack to get redirect to work, because props.createdClassroom is still
+    // bound to old value. Possible workaround is to set a state variable and
+    // then subscribe to it with use effect
   };
+  const [modalTarget, setModalTarget] = useState(null);
+  const closeModal = () => setModalTarget(null);
+  return (
+    <div>
+      <h1>Home</h1>
+      <div>
+        <button onClick={() => setModalTarget("createClassroom")}>
+          Create Classroom
+        </button>
 
-  render() {
-    return (
-      <>
-        <StyledForm onSubmit={this.handleAddProgram}>
-          <StyledH2>Welcome User</StyledH2>
-          <StyledH3>Your Classrooms</StyledH3>
-          <p>{this.state.programType}</p>
-          <input
-            type="text"
-            name="programType"
-            placeholder="Name"
-            value={this.state.programType}
-            onChange={this.handleChanges}
-          />
-        </StyledForm>
-      </>
-    );
-  }
-}
+        {/* TODO: classrooms member of, searchable all classrooms, createClassrooms  */}
+        <h2>Classrooms</h2>
+        <Error error={props.classroomsError} />
+        <div className={props.gettingClassrooms ? "loading" : ""}>
+          {props.classroomsArr
+            .filter(cr => cr.name.toLowerCase().includes(filter.toLowerCase()))
+            .map(cr => (
+              <div key={cr.id}>
+                <Link to={classroomUrl(cr.id, cr.name)}>{cr.name}</Link>
+              </div>
+            ))}
+        </div>
+        <input onChange={handleFilter} placeholder="Search for a Class" />
+      </div>
+      {modalTarget && (
+        <Modal handleClose={closeModal}>
+          {(() => {
+            switch (modalTarget) {
+              case "createClassroom":
+                return (
+                  <form onSubmit={handleCreateClassroom}>
+                    <input type="text" name="name" placeholder="name" />
+                    <button type="submit">Create Classroom</button>
+                  </form>
+                );
+              default:
+                return null;
+            }
+          })()}
+        </Modal>
+      )}
+    </div>
+  );
+};
 
-const mapStateToProps = state => {
-  return { register: state.home, error: state.error };
+const mapStateToProps = ({ classrooms }) => {
+  return classrooms;
 };
 
 export default connect(
   mapStateToProps,
-  { add }
+  { getClassrooms, createClassroom }
 )(Home);
-
-const StyledForm = styled.form`
-  width: 348px;
-  height: 363px;
-  border: solid 1px rgba(164, 164, 164, 0.488);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  border-radius: 8px;
-  margin: auto;
-  margin-top: 100px;
-  background-color: rgba(157, 157, 157, 0.071);
-`;
-
-const StyledH2 = styled.h2`
-  font-size: 2rem;
-  margin: 0;
-  font-weight: 100;
-`;
-
-const StyledH3 = styled.h3`
-  font-size: 1.6rem;
-  margin: 0;
-  font-weight: 100;
-`;

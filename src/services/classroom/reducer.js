@@ -1,7 +1,9 @@
 import {
   GET_CLASSROOM_START, GET_CLASSROOM_SUCCESS, GET_CLASSROOM_FAILURE,
   ADD_PROJECT_START, ADD_PROJECT_SUCCESS, ADD_PROJECT_FAILURE,
+  // GET_PROJECT_START, GET_PROJECT_SUCCESS, GET_PROJECT_FAILURE,
   EDIT_CLASSROOM_START, EDIT_CLASSROOM_SUCCESS, EDIT_CLASSROOM_FAILURE,
+  REMOVE_USER_FROM_SLOT_START, REMOVE_USER_FROM_SLOT_SUCCESS, REMOVE_USER_FROM_SLOT_FAILURE,
 } from './actions.js';
 
 const initialState = {
@@ -14,6 +16,8 @@ const initialState = {
   addingProjectError: null,
   editingClassroom: false,
   editClassroomError: null,
+  removingUserFromSlot: false,
+  removeUserFromSlotError: null
 };
 
 const transformRoles = roles => {
@@ -35,15 +39,15 @@ export const classroomReducer = (state = initialState, action) => {
   case GET_CLASSROOM_START:
     return {
       ...state,
-      id: null,
-      name: " ",
-      projects: [],
+      // id: null,
+      // name: " ",
+      // projects: [],
       gettingClassroom: true,
       classroomError: null
     };
   case GET_CLASSROOM_SUCCESS:
     // group roles by role_name
-    const projects = action.payload.projects.map(p => (
+    var projects = action.payload.projects.map(p => (
       {
         ...p,
         // roles: p.roles.reduce((acc, role) => (
@@ -61,7 +65,7 @@ export const classroomReducer = (state = initialState, action) => {
   case GET_CLASSROOM_FAILURE:
     return {
       ...state,
-      classroom: {},
+      // classroom: {},
       gettingClassroom: false,
       classroomError: action.error
     };
@@ -84,6 +88,44 @@ export const classroomReducer = (state = initialState, action) => {
       addingProject: false,
       addingProjectError: action.error
     };
+  // Rooute is bugged
+  // get project
+  // case GET_PROJECT_START:
+  //   return {
+  //     ...state,
+  //     getingProject: true,
+  //     getingProjectError: null
+  //   };
+  // case GET_PROJECT_SUCCESS:
+  //   if (action.classroom_id === state.id) {
+  //     var projects = [state.projects];
+  //     var projectIdx = projects.findIndex(({id}) => id === action.payload.id);
+  //     console.log(action.payload, projectIdx);
+  //     if (projectIdx >= 0) {
+  //       projects[projectIdx] = {
+  //         ...action.payload,
+  //         roles: transformRoles(action.payload.roles)
+  //       };
+  //     }
+  //     return {
+  //       ...state,
+  //       projects,
+  //       getingProject: false,
+  //       getingProjectError: null
+  //     };
+  //   } else {
+  //     return {
+  //       ...state,
+  //       getingProject: false,
+  //       getingProjectError: null
+  //     };
+  //   }
+  // case GET_PROJECT_FAILURE:
+  //   return {
+  //     ...state,
+  //     getingProject: false,
+  //     getingProjectError: action.error
+  //   };
   case EDIT_CLASSROOM_START:
     return {
       ...state,
@@ -102,6 +144,24 @@ export const classroomReducer = (state = initialState, action) => {
       ...state,
       editingClassroom: false,
       editClassroomError: action.error
+    };
+  case REMOVE_USER_FROM_SLOT_START:
+    return {
+      ...state,
+      removingUserFromSlot: true,
+      removeUserFromSlotError: null
+    };
+  case REMOVE_USER_FROM_SLOT_SUCCESS:
+    return {
+      ...state,
+      removingUserFromSlot: false,
+      removeUserFromSlotError: null
+    };
+  case REMOVE_USER_FROM_SLOT_FAILURE:
+    return {
+      ...state,
+      removingUserFromSlot: false,
+      removeUserFromSlotError: action.error
     };
   default:
     return state;

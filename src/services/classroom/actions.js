@@ -29,6 +29,17 @@ export const addProject = (classroom_id, {name, description}) => dispatch => {
     .catch(error => dispatch({ type: ADD_PROJECT_FAILURE, error: error}));
 };
 
+// export const GET_PROJECT_START = 'GET_PROJECT_START';
+// export const GET_PROJECT_SUCCESS = 'GET_PROJECT_SUCCESS';
+// export const GET_PROJECT_FAILURE = 'GET_PROJECT_FAILURE';
+
+// export const getProject = (classroom_id, classroom_project_id) => dispatch => {
+//   dispatch({ type: GET_PROJECT_START });
+//   return api.getClassroomProject({classroom_id, classroom_project_id})
+//     .then(res => dispatch({ type: GET_PROJECT_SUCCESS, payload: res.data, classroom_id }))
+//     .catch(error => dispatch({ type: GET_PROJECT_FAILURE, error: error}));
+// };
+
 export const EDIT_CLASSROOM_START = 'EDIT_CLASSROOM_START';
 export const EDIT_CLASSROOM_SUCCESS = 'EDIT_CLASSROOM_SUCCESS';
 export const EDIT_CLASSROOM_FAILURE = 'EDIT_CLASSROOM_FAILURE';
@@ -38,4 +49,19 @@ export const editClassroom = (classroom_id, {name}) => dispatch => {
   return api.editClassroom(classroom_id, {name})
     .then(res => dispatch({ type: EDIT_CLASSROOM_SUCCESS, payload: res.data }))
     .catch(error => dispatch({ type: EDIT_CLASSROOM_FAILURE, error: error}));
+};
+
+export const REMOVE_USER_FROM_SLOT_START = 'REMOVE_USER_FROM_SLOT_START';
+export const REMOVE_USER_FROM_SLOT_SUCCESS = 'REMOVE_USER_FROM_SLOT_SUCCESS';
+export const REMOVE_USER_FROM_SLOT_FAILURE = 'REMOVE_USER_FROM_SLOT_FAILURE';
+
+export const removeUserFromSlot = (classroom_id, member_slot_id) => dispatch => {
+  dispatch({ type: REMOVE_USER_FROM_SLOT_START });
+  return api.removeUserFromMemberSlot(member_slot_id)
+    .then(res => {
+      dispatch({ type: REMOVE_USER_FROM_SLOT_SUCCESS, payload: res.data });
+      // return getProject(classroom_id*1, classroom_project_id)(dispatch);
+      return getClassroom(classroom_id)(dispatch);
+    })
+    .catch(error => dispatch({ type: REMOVE_USER_FROM_SLOT_FAILURE, error: error}));
 };

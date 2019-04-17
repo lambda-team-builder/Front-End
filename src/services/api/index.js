@@ -35,12 +35,12 @@ export const getProjects = ({name, description}) => {
 };
 
 // project member slots
-export const addUserToMemberSlot = (member_slot_id, {user_id}) => {
-  return axiosWithAuth().put(`${API_URL}/project_members/${member_slot_id}`, {user_id});
+export const addUserToMemberSlot = (member_slot_id, {classroom_member_id}) => {
+  return axiosWithAuth().put(`${API_URL}/project_members/${member_slot_id}`, {classroom_member_id});
 };
 
 export const removeUserFromMemberSlot = (member_slot_id) => {
-  return axiosWithAuth().put(`${API_URL}/project_members/${member_slot_id}`, {user_id: null});
+  return axiosWithAuth().put(`${API_URL}/project_members/${member_slot_id}`, {classroom_member_id: null});
 };
 
 export const joinMemberSlot = (member_slot_id) => {
@@ -85,7 +85,8 @@ export const addProjectToClassroom = (classroom_id, {project_id}) => {
   return axiosWithAuth().post(`${API_URL}/classrooms/${classroom_id}/projects`, {project_id});
 };
 
-export const getClasssroomProject = (classroom_id, classroom_project_id) => {
+// route is bugged
+export const getClassroomProject = (classroom_id, classroom_project_id) => {
   return axiosWithAuth()
     .get(`${API_URL}/classrooms/${classroom_id}/projects/${classroom_project_id}`);
 };

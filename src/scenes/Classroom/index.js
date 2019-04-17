@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { getClassroom, addProject, editClassroom } from '../../services/classroom/actions.js';
+import { getClassroom, addProject, editClassroom, removeUserFromSlot } from '../../services/classroom/actions.js';
 import Modal from '../../components/Modal';
 
 const Classroom = (props) => {
@@ -20,6 +20,7 @@ const Classroom = (props) => {
     props.editClassroom(classroom_id, {name: event.target.name.value})
       .then(({payload}) => payload && closeModal());
   };
+  const [editId, setEditId] = useState(null);
   return (
     <div>
       <h1>{props.name}</h1>
@@ -45,7 +46,8 @@ const Classroom = (props) => {
                 </div>
               ))}
             </span>
-            <button>Edit Project</button>
+            <button onClick={() => {setModalTarget("editProject"); setEditId(proj.id);}}>
+              Edit Project</button>
           </div>
         ))}
       </div>
@@ -60,6 +62,39 @@ const Classroom = (props) => {
                  <button type="submit">Edit Classroom</button>
                </form>
              );
+           case "editProject":
+             const project = props.projects.find(({id}) => id === editId);
+             return (
+               <div style={{background: "white"}}>
+               <form>
+                 <input type="text" name="name" placeholder="name" defaultValue={project.name}/>
+                 <textarea name="description" placeholder="description" defaultValue={project.description}/>
+                 <button type="submit" disabled>Submit Changes</button>
+               </form>
+                 <h2>Roles</h2>
+                 {project.roles.map(([name, {slots}]) => (
+                   <div key={name}>
+                     <div>{name}</div>
+                     {slots.map(slot => {
+                       if (slot.user_name) {
+                         return <div key={slot.id}>
+                                  {slot.user_name}
+                                  <button onClick={() => (
+                                    props.removeUserFromSlot(classroom_id, slot.id)
+                                  )}>
+                                    Remove
+                                  </button>
+                                </div>;
+                       } else {
+                         return <div key={slot.id}>
+                                  Empty
+                                </div>;
+                       }
+                     })}
+                   </div>
+                 ))}
+               </div>
+             );
            default:
              return null;
            }})()}
@@ -73,4 +108,4 @@ const mapStateToProps = ({classroom}) => {
   return classroom;
 };
 
-export default connect(mapStateToProps, { getClassroom, addProject, editClassroom })(Classroom);
+export default connect(mapStateToProps, { getClassroom, addProject, editClassroom, removeUserFromSlot })(Classroom);

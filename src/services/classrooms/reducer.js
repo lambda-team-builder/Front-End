@@ -5,7 +5,7 @@ import {
 const initialState = {
   classroomsArr: [],
   gettingClassrooms: false,
-  error: null
+  classroomsError: null
 };
 
 export const classroomsReducer = (state = initialState, action) => {

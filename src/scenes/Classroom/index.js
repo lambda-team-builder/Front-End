@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { getClassroom, addProject } from '../../services/classroom/actions.js';
+import { getClassroom, addProject, editClassroom } from '../../services/classroom/actions.js';
+import Modal from '../../components/Modal';
 
 const Classroom = (props) => {
   const classroom_id = props.match.params.classroom_id;
@@ -12,9 +13,17 @@ const Classroom = (props) => {
     props.addProject(classroom_id, {name: event.target.name.value,
                                     description: event.target.description.value});
   };
+  const [modalTarget, setModalTarget] = useState(null);
+  const closeModal = () => setModalTarget(null);
+  const handleEditClassroom = event => {
+    event.preventDefault();
+    props.editClassroom(classroom_id, {name: event.target.name.value})
+      .then(({payload}) => payload && closeModal());
+  };
   return (
     <div>
       <h1>{props.name}</h1>
+      <button onClick={() => setModalTarget("editClassroom")}>Edit Name</button>
       <form onSubmit={handleAddProject}>
         <input type="text" name="name" placeholder="name"/>
         <input type="text" name="description" placeholder="description"/>
@@ -40,13 +49,20 @@ const Classroom = (props) => {
           </div>
         ))}
       </div>
+      {modalTarget === "editClassroom" &&
+       <Modal handleClose={closeModal}>
+         <form onSubmit={handleEditClassroom}>
+           <input type="text" name="name" palceholder="name"/>
+           <button type="submit">Edit Classroom</button>
+         </form>
+       </Modal>
+      }
     </div>
   );
 };
 
 const mapStateToProps = ({classroom}) => {
-  const { name, projects, gettingClassroom, classroomError } = classroom;
-  return { name, projects, gettingClassroom, classroomError };
+  return classroom;
 };
 
-export default connect(mapStateToProps, { getClassroom, addProject })(Classroom);
+export default connect(mapStateToProps, { getClassroom, addProject, editClassroom })(Classroom);

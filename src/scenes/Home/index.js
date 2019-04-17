@@ -8,6 +8,7 @@ import Error from "../../components/Error";
 import { Link } from "react-router-dom";
 import slugify from "slugify";
 import Modal from "../../components/Modal";
+import styled from "styled-components";
 
 const classroomUrl = (id, name) => `/c/${id}/${slugify(name)}`;
 
@@ -35,17 +36,17 @@ const Home = props => {
   const [modalTarget, setModalTarget] = useState(null);
   const closeModal = () => setModalTarget(null);
   return (
-    <div>
-      <h1>Home</h1>
+    <StyledDiv>
+      <StyledH1>Home</StyledH1>
       <div>
-        <button onClick={() => setModalTarget("createClassroom")}>
+        <StyledButton onClick={() => setModalTarget("createClassroom")}>
           Create Classroom
-        </button>
+        </StyledButton>
 
         {/* TODO: classrooms member of, searchable all classrooms, createClassrooms  */}
-        <h2>Classrooms</h2>
+        <StyledH2>Classrooms</StyledH2>
         <Error error={props.classroomsError} />
-        <div className={props.gettingClassrooms ? "loading" : ""}>
+        <StyledDiv className={props.gettingClassrooms ? "loading" : ""}>
           {props.classroomsArr
             .filter(cr => cr.name.toLowerCase().includes(filter.toLowerCase()))
             .map(cr => (
@@ -53,8 +54,8 @@ const Home = props => {
                 <Link to={classroomUrl(cr.id, cr.name)}>{cr.name}</Link>
               </div>
             ))}
-        </div>
-        <input onChange={handleFilter} placeholder="Search for a Class" />
+        </StyledDiv>
+        <StyledInput onChange={handleFilter} placeholder="Search for a Class" />
       </div>
       {modalTarget && (
         <Modal handleClose={closeModal}>
@@ -62,10 +63,10 @@ const Home = props => {
             switch (modalTarget) {
               case "createClassroom":
                 return (
-                  <form onSubmit={handleCreateClassroom}>
-                    <input type="text" name="name" placeholder="name" />
-                    <button type="submit">Create Classroom</button>
-                  </form>
+                  <StyledForm onSubmit={handleCreateClassroom}>
+                    <StyledInput type="text" name="name" placeholder="name" />
+                    <StyledButton type="submit">Create Classroom</StyledButton>
+                  </StyledForm>
                 );
               default:
                 return null;
@@ -73,7 +74,7 @@ const Home = props => {
           })()}
         </Modal>
       )}
-    </div>
+    </StyledDiv>
   );
 };
 
@@ -85,3 +86,73 @@ export default connect(
   mapStateToProps,
   { getClassrooms, createClassroom }
 )(Home);
+
+const StyledH1 = styled.h1`
+  font-size: 2rem;
+  margin: 0;
+  font-weight: 100;
+`;
+
+const StyledH2 = styled.h2`
+  display: flex;
+  justify-content: center;
+  font-size: 1.6rem;
+  margin: 10px 0;
+  font-weight: 100;
+`;
+
+const StyledDiv = styled.div`
+  width: auto;
+  height: auto;
+  border: solid 1px rgba(164, 164, 164, 0.488);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
+  margin: auto;
+  margin: 20px 0;
+  background-color: rgba(157, 157, 157, 0.071);
+  padding: 10px;
+`;
+
+const StyledButton = styled.button`
+  background-color: #b8d9f0;
+  border: none;
+  width: auto;
+  color: black;
+  margin: 10px;
+  padding: 5px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+  border: solid 1px #48484841;
+  border-radius: 4px;
+  font-weight: 100;
+  outline: none;
+`;
+
+const StyledForm = styled.form`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+`;
+
+const StyledInput = styled.input`
+  display: inline-block;
+  background-color: rgb(255, 255, 255);
+  border: none;
+  width: auto;
+  color: black;
+  outline: none;
+  margin: 5px;
+  padding: 5px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 100;
+  border: solid 1px #48484841;
+  border-radius: 4px;
+`;

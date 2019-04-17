@@ -52,14 +52,13 @@ and seen below with slight modification.
 
   /services
     /api
+      index.js
     /geolocation
     /session
       /actions.js
-      /index.js
       /reducer.js
     /users
       /actions.js
-      /api.js
       /reducer.js
   /styles
     index.js
@@ -88,3 +87,6 @@ Redux actions and Reducers, which should be defined in the root `/services` in a
 logically named directory. A small number of functions may be defined in
 component files, but if logic is shared or becomes larger it should be moved
 into a `services` sub-directory.
+
+All api requests are localized in `/services/api/index.js`. The are imported and
+used by the actions instead of having actions make the api calls directly.

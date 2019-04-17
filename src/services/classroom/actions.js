@@ -28,3 +28,14 @@ export const addProject = (classroom_id, {name, description}) => dispatch => {
     ))
     .catch(error => dispatch({ type: ADD_PROJECT_FAILURE, error: error}));
 };
+
+export const EDIT_CLASSROOM_START = 'EDIT_CLASSROOM_START';
+export const EDIT_CLASSROOM_SUCCESS = 'EDIT_CLASSROOM_SUCCESS';
+export const EDIT_CLASSROOM_FAILURE = 'EDIT_CLASSROOM_FAILURE';
+
+export const editClassroom = (classroom_id, {name}) => dispatch => {
+  dispatch({ type: EDIT_CLASSROOM_START });
+  return api.editClassroom(classroom_id, {name})
+    .then(res => dispatch({ type: EDIT_CLASSROOM_SUCCESS, payload: res.data }))
+    .catch(error => dispatch({ type: EDIT_CLASSROOM_FAILURE, error: error}));
+};

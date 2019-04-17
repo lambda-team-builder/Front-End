@@ -1,6 +1,7 @@
 import {
   GET_CLASSROOM_START, GET_CLASSROOM_SUCCESS, GET_CLASSROOM_FAILURE,
   ADD_PROJECT_START, ADD_PROJECT_SUCCESS, ADD_PROJECT_FAILURE,
+  EDIT_CLASSROOM_START, EDIT_CLASSROOM_SUCCESS, EDIT_CLASSROOM_FAILURE,
 } from './actions.js';
 
 const initialState = {
@@ -10,7 +11,9 @@ const initialState = {
   gettingClassroom: false,
   classroomError: null,
   addingProject: false,
-  addingProjectError: null
+  addingProjectError: null,
+  editingClassroom: false,
+  editClassroomError: null,
 };
 
 export const classroomReducer = (state = initialState, action) => {
@@ -47,6 +50,7 @@ export const classroomReducer = (state = initialState, action) => {
       gettingClassroom: false,
       classroomError: action.error
     };
+  // add project to classroom
   case ADD_PROJECT_START:
     return {
       ...state,
@@ -64,6 +68,25 @@ export const classroomReducer = (state = initialState, action) => {
       ...state,
       addingProject: false,
       addingProjectError: action.error
+    };
+  case EDIT_CLASSROOM_START:
+    return {
+      ...state,
+      editingClassroom: true,
+      editClassroomError: null
+    };
+  case EDIT_CLASSROOM_SUCCESS:
+    return {
+      ...state,
+      name: (state.id === action.payload.id ? action.payload.name : state.name),
+      editingClassroom: false,
+      editClassroomError: null
+    };
+  case EDIT_CLASSROOM_FAILURE:
+    return {
+      ...state,
+      editingClassroom: false,
+      editClassroomError: action.error
     };
   default:
     return state;

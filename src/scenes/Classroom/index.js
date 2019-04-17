@@ -96,6 +96,7 @@ const Classroom = (props) => {
                      <button onClick={() => props.createSlot(classroom_id, project.id, {})}>Add Slot</button>
                    </div>
                  ))}
+                 <button disabled>Add Role</button>
                </div>
              );
            default:

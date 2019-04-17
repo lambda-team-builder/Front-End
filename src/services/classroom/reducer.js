@@ -20,9 +20,18 @@ export const classroomReducer = (state = initialState, action) => {
       classroomError: null
     };
   case GET_CLASSROOM_SUCCESS:
+    // group roles by role_name
+    const projects = action.payload.projects.map(p => (
+      {
+        ...p,
+        roles: p.roles.reduce((acc, role) => (
+          Object.assign(acc, {[role.role_name]: (acc[role.role_name] || []).concat(role)})), {})
+      }
+    ));
     return {
       ...state,
       ...action.payload,
+      projects: projects,
       gettingClassroom: false,
       classroomError: null
     };

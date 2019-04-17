@@ -22,14 +22,16 @@ class Login extends Component {
     this.props.login({
       email: this.state.email,
       password: this.state.password
-    });
+    })
+      .then(() => this.props.authenticated && this.props.history.push("/"));
   };
 
   render() {
     return (
       <StyledForm>
         <StyledH2>Team Builder Login</StyledH2>
-        <Error>{getErrorMessage(this.props.authenticationError)}</Error>
+        {this.props.authenticationError
+         && <Error>{getErrorMessage(this.props.authenticationError)}</Error>}
         <StyledInput
           type="text"
           placeholder="Email"
@@ -55,8 +57,8 @@ class Login extends Component {
 }
 
 const mapStateToProps = ({session}) => {
-  const { authenticating, authenticationError } = session;
-  return { authenticating, authenticationError };
+  const { authenticating, authenticationError, authenticated } = session;
+  return { authenticating, authenticationError, authenticated };
 };
 
 export default connect(

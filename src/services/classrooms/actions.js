@@ -18,6 +18,6 @@ export const CREATE_CLASSROOM_FAILURE = 'CREATE_CLASSROOM_FAILURE';
 export const createClassroom = ({name}) => dispatch => {
   dispatch({ type: CREATE_CLASSROOM_START });
   return api.createClassroom({name})
-    .then(res => dispatch({ type: CREATE_CLASSROOM_SUCCESS, payload: res.data }) && true)
-    .catch(error => dispatch({ type: CREATE_CLASSROOM_FAILURE, error: error }) && false);
+    .then(res => dispatch({ type: CREATE_CLASSROOM_SUCCESS, payload: res.data }))
+    .catch(error => dispatch({ type: CREATE_CLASSROOM_FAILURE, error: error }));
 };

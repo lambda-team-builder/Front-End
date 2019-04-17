@@ -13,6 +13,8 @@ const Home = (props) => {
   useEffect(() => {
     props.getClassrooms();
   }, []);
+  const [filter, setFilter] = useState("");
+  const handleFilter = event => setFilter(event.target.value);
   // Create classroom and navigate when state is update
   const handleCreateClassroom = event => {
     event.preventDefault();

@@ -1,15 +1,25 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getClassroom } from '../../services/classroom/actions.js';
+import { getClassroom, addProject } from '../../services/classroom/actions.js';
 
 const Classroom = (props) => {
+  const classroom_id = props.match.params.classroom_id;
   useEffect(() => {
-    console.log("here");
-    props.getClassroom(props.match.params.classroom_id);
-  }, [props.match.params.classroom_id]);
+    props.getClassroom(classroom_id);
+  }, [classroom_id]);
+  const handleAddProject = event => {
+    event.preventDefault();
+    props.addProject(classroom_id, {name: event.target.name.value,
+                                    description: event.target.description.value});
+  };
   return (
     <div>
       <h1>{props.name}</h1>
+      <form onSubmit={handleAddProject}>
+        <input type="text" name="name" placeholder="name"/>
+        <input type="text" name="description" placeholder="description"/>
+        <button type="submit">Add Project</button>
+      </form>
       <div>
         {props.projects.map(proj => (
           <div key={proj.id}>
@@ -39,4 +49,4 @@ const mapStateToProps = ({classroom}) => {
   return { name, projects, gettingClassroom, classroomError };
 };
 
-export default connect(mapStateToProps, { getClassroom })(Classroom);
+export default connect(mapStateToProps, { getClassroom, addProject })(Classroom);

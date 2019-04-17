@@ -19,10 +19,10 @@ export const addProject = (classroom_id, {name, description}) => dispatch => {
   dispatch({ type: ADD_PROJECT_START });
   return api.createProject({name, description})
     .then(res => (
-      api.addProjectToClassroom(classroom_id, {project_id: res.id})
+      api.addProjectToClassroom(classroom_id, {project_id: res.data.id})
         .then(() => {
           dispatch({ type: ADD_PROJECT_SUCCESS });
-          getClassroom(classroom_id);
+          getClassroom(classroom_id)(dispatch);
         })
         .catch(error => dispatch({ type: ADD_PROJECT_FAILURE, error: error }))
     ))

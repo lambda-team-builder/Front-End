@@ -24,7 +24,7 @@ class Register extends Component {
       email: this.state.email,
       password: this.state.password,
       name: this.state.name,
-    }).then(() => this.props.authenticated && this.props.history.push("/"));
+    }).then(() => this.props.authenticated && this.props.history.push("/home"));
   };
 
   render() {

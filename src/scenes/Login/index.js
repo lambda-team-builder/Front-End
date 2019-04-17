@@ -22,7 +22,7 @@ class Login extends Component {
     this.props.login({
       email: this.state.email,
       password: this.state.password
-    }).then(() => this.props.authenticated && this.props.history.push("/"));
+    }).then(() => this.props.authenticated && this.props.history.push("/home"));
   };
 
   render() {

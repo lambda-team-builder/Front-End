@@ -1,7 +1,7 @@
-import React, { useRef } from 'react';
-import styled, { keyframes } from 'styled-components';
+import React, { useRef } from "react";
+import styled, { keyframes } from "styled-components";
 
-const Modal = ({handleClose, children, ...props}) => {
+const Modal = ({ handleClose, children, ...props }) => {
   const modalRef = useRef();
   const handleClick = event => {
     event.target === modalRef.current && handleClose();

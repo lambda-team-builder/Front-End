@@ -1,7 +1,11 @@
 import {
   GET_CLASSROOM_START, GET_CLASSROOM_SUCCESS, GET_CLASSROOM_FAILURE,
   ADD_PROJECT_START, ADD_PROJECT_SUCCESS, ADD_PROJECT_FAILURE,
+  // GET_PROJECT_START, GET_PROJECT_SUCCESS, GET_PROJECT_FAILURE,
   EDIT_CLASSROOM_START, EDIT_CLASSROOM_SUCCESS, EDIT_CLASSROOM_FAILURE,
+  CREATE_SLOT_START, CREATE_SLOT_SUCCESS, CREATE_SLOT_FAILURE,
+  REMOVE_USER_FROM_SLOT_START, REMOVE_USER_FROM_SLOT_SUCCESS, REMOVE_USER_FROM_SLOT_FAILURE,
+  GET_MEMBERS_START, GET_MEMBERS_SUCCESS, GET_MEMBERS_FAILURE,
 } from './actions.js';
 
 const initialState = {
@@ -14,6 +18,13 @@ const initialState = {
   addingProjectError: null,
   editingClassroom: false,
   editClassroomError: null,
+  removingUserFromSlot: false,
+  removeUserFromSlotError: null,
+  creatingSlot: false,
+  createSlotError: null,
+  gettingMembers: false,
+  members: [],
+  getMembersError: null,
 };
 
 const transformRoles = roles => {
@@ -22,11 +33,15 @@ const transformRoles = roles => {
     Object.assign(acc, {[role.role_name]: (acc[role.role_name] || []).concat(role)})), {});
   // transform to array and sort by role_name
   newRoles = Object.entries(newRoles).sort(([nameA], [nameB]) => nameA < nameB ? 0 : 1);
-  // transform to array with 0 as name and 1 as object with slots arr and number of empty slots
-  newRoles = newRoles.map(([name, slots]) => [name, {
-    slots: slots,
+  // transform to map
+  newRoles = newRoles.map(([name, slots]) => (
+    // console.log(slots[0], slots[0].role_id) ||
+    {
+    name, 
+    slots,
     empty: slots.filter(s => !s.user_id).length,
-  }]);
+    id: slots[0].role_id
+  }));
   return newRoles;
 };
 
@@ -35,15 +50,15 @@ export const classroomReducer = (state = initialState, action) => {
   case GET_CLASSROOM_START:
     return {
       ...state,
-      id: null,
-      name: " ",
-      projects: [],
+      // id: null,
+      // name: " ",
+      // projects: [],
       gettingClassroom: true,
       classroomError: null
     };
   case GET_CLASSROOM_SUCCESS:
     // group roles by role_name
-    const projects = action.payload.projects.map(p => (
+    var projects = action.payload.projects.map(p => (
       {
         ...p,
         // roles: p.roles.reduce((acc, role) => (
@@ -61,7 +76,7 @@ export const classroomReducer = (state = initialState, action) => {
   case GET_CLASSROOM_FAILURE:
     return {
       ...state,
-      classroom: {},
+      // classroom: {},
       gettingClassroom: false,
       classroomError: action.error
     };
@@ -84,6 +99,44 @@ export const classroomReducer = (state = initialState, action) => {
       addingProject: false,
       addingProjectError: action.error
     };
+  // Rooute is bugged
+  // get project
+  // case GET_PROJECT_START:
+  //   return {
+  //     ...state,
+  //     getingProject: true,
+  //     getingProjectError: null
+  //   };
+  // case GET_PROJECT_SUCCESS:
+  //   if (action.classroom_id === state.id) {
+  //     var projects = [state.projects];
+  //     var projectIdx = projects.findIndex(({id}) => id === action.payload.id);
+  //     console.log(action.payload, projectIdx);
+  //     if (projectIdx >= 0) {
+  //       projects[projectIdx] = {
+  //         ...action.payload,
+  //         roles: transformRoles(action.payload.roles)
+  //       };
+  //     }
+  //     return {
+  //       ...state,
+  //       projects,
+  //       getingProject: false,
+  //       getingProjectError: null
+  //     };
+  //   } else {
+  //     return {
+  //       ...state,
+  //       getingProject: false,
+  //       getingProjectError: null
+  //     };
+  //   }
+  // case GET_PROJECT_FAILURE:
+  //   return {
+  //     ...state,
+  //     getingProject: false,
+  //     getingProjectError: action.error
+  //   };
   case EDIT_CLASSROOM_START:
     return {
       ...state,
@@ -102,6 +155,61 @@ export const classroomReducer = (state = initialState, action) => {
       ...state,
       editingClassroom: false,
       editClassroomError: action.error
+    };
+  case REMOVE_USER_FROM_SLOT_START:
+    return {
+      ...state,
+      removingUserFromSlot: true,
+      removeUserFromSlotError: null
+    };
+  case REMOVE_USER_FROM_SLOT_SUCCESS:
+    return {
+      ...state,
+      removingUserFromSlot: false,
+      removeUserFromSlotError: null
+    };
+  case REMOVE_USER_FROM_SLOT_FAILURE:
+    return {
+      ...state,
+      removingUserFromSlot: false,
+      removeUserFromSlotError: action.error
+    };
+  case CREATE_SLOT_START:
+    return {
+      ...state,
+      creatingSlot: true,
+      createSlotError: null,
+    };
+  case CREATE_SLOT_SUCCESS:
+    return {
+      ...state,
+      creatingSlot: false,
+      createSlotError: null,
+    };
+  case CREATE_SLOT_FAILURE:
+    return {
+      ...state,
+      creatingSlot: false,
+      createSlotError: action.error,
+    };
+  case GET_MEMBERS_START:
+    return {
+      ...state,
+      gettingMembers: true,
+      getMembersError: null,
+    };
+  case GET_MEMBERS_SUCCESS:
+    return {
+      ...state,
+      gettingMembers: false,
+      members: action.payload,
+      getMembersError: null,
+    };
+  case GET_MEMBERS_FAILURE:
+    return {
+      ...state,
+      gettingMembers: false,
+      getMembersError: action.error,
     };
   default:
     return state;

@@ -16,10 +16,10 @@
     "styled-components": "^4.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "env NODE_PATH='./src' react-scripts start",
+    "build": "env NODE_PATH='./src' react-scripts build",
+    "test":  "env NODE_PATH='./src' react-scripts test",
+    "eject": "env NODE_PATH='./src' react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"

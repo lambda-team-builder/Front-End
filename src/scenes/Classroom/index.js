@@ -4,7 +4,7 @@ import {
   getClassroom, addProject, editClassroom, addUserToSlot, removeUserFromSlot, createSlot, getMembers,
   createRole, deleteSlot, updateProject,
 } from '../../services/classroom/actions.js';
-import Modal from '../../components/Modal';
+import Modal from 'components/Modal';
 
 const Classroom = (props) => {
   const classroom_id = props.match.params.classroom_id;

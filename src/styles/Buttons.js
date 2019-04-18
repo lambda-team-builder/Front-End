@@ -22,7 +22,8 @@ import { colors } from './theme.js';
 //   // }
 // `;
 
-export const Button = styled.div.attrs(({bg, fg, shadow}) => ({
+export const Button = styled.div.attrs(({bg, fg, shadow, ...props}) => ({
+  ...props,
   bg: bg || colors.forest,
   fg: fg || colors.white,
   shadow: shadow || colors.dusk,

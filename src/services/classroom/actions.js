@@ -145,3 +145,17 @@ export const createRole = (classroom_id, classroom_project_id, {name}) => dispat
     })
     .catch(error => dispatch({ type: CREATE_ROLE_FAILURE, error: error}));
 };
+
+export const JOIN_CLASSROOM_START = 'JOIN_CLASSROOM_START';
+export const JOIN_CLASSROOM_SUCCESS = 'JOIN_CLASSROOM_SUCCESS';
+export const JOIN_CLASSROOM_FAILURE = 'JOIN_CLASSROOM_FAILURE';
+
+export const joinClassroom = (classroom_id, {password}) => dispatch => {
+  dispatch({ type: JOIN_CLASSROOM_START });
+  return api.joinClassroom(classroom_id, {password: password || null})
+    .then(res => {
+      return getClassroom(classroom_id)(dispatch)
+        .then(() => dispatch({ type: JOIN_CLASSROOM_SUCCESS, payload: res.data }));
+    })
+    .catch(error => dispatch({ type: JOIN_CLASSROOM_FAILURE, error: error}));
+};

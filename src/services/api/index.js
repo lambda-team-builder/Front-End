@@ -81,6 +81,10 @@ export const createClassroom = ({name, password}) => {
   return axiosWithAuth().post(`${API_URL}/classrooms`, {name, password});
 };
 
+export const joinClassroom = (id, {password}) => {
+  return axiosWithAuth().put(`${API_URL}/classrooms/${id}/join`, {password: password || null});
+};
+
 export const editClassroom = (id, {name}) => {
   return axiosWithAuth().put(`${API_URL}/classrooms/${id}`, {name});
 };

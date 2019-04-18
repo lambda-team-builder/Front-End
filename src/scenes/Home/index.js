@@ -156,7 +156,7 @@ const StyledDiv = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #5e8b9e55;
+    background-color: #8bb0c055;
     width: 100%;
     margin-top: 0;
     position: sticky;
@@ -176,7 +176,7 @@ const StyledDiv2 = styled.div`
   align-items: center;
   border-radius: 8px;
   margin: 20px auto;
-  background: #5e8b9e;
+  background: #8bb0c0;
   box-shadow: 1px 1px 10px 1px black;
   /* padding: 10px; */
 `;
@@ -204,8 +204,8 @@ const StyledDiv4 = styled.div`
   box-shadow: 0px 0px 3px 0px black;
   background: #ffffff;
   margin: 20px 10px;
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   padding: 10px 20px;
   border-radius: 8px;
   transition: all 0.3s;

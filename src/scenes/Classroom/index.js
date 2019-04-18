@@ -31,17 +31,20 @@ const Classroom = props => {
       .then(({ payload }) => payload && closeModal());
   };
   const [editId, setEditId] = useState(null);
+
   return (
     <StyledDiv>
       <StyledH1>{props.name}</StyledH1>
-      <StyledButton onClick={() => setModalTarget("editClassroom")}>
-        Edit Name
-      </StyledButton>
-      <form onSubmit={handleAddProject}>
-        <input type="text" name="name" placeholder="name" />
-        <input type="text" name="description" placeholder="description" />
-        <button type="submit">Add Project</button>
-      </form>
+      <StyledMenuContainer>
+        <StyledButton onClick={() => setModalTarget("editClassroom")}>
+          Edit Name
+        </StyledButton>
+        <form onSubmit={handleAddProject}>
+          <input type="text" name="name" placeholder="name" />
+          <input type="text" name="description" placeholder="description" />
+          <StyledButton type="submit">Add Project</StyledButton>
+        </form>
+      </StyledMenuContainer>
       <StyledDiv2>
         {props.projects.map(proj => (
           <StyledDiv3 key={proj.id}>
@@ -165,16 +168,59 @@ export default connect(
   }
 )(Classroom);
 
-const StyledDiv = styled.div`
-  border: solid 1px red;
+const StyledMenuContainer = styled.div`
+  margin-bottom: 10px;
+  button:first-child {
+    width: 268px;
+  }
+  input {
+    color: #1a1a1a;
+    font-size: 1rem;
+    border: none;
+    outline: none;
+    text-align: center;
+    padding: 5px 0;
+    width: 268px;
+    border: solid 1px #48484841;
+    border-radius: 4px;
+    margin-left: 10px;
+  }
 `;
 
+const StyledDiv = styled.div``;
+
 const StyledDiv2 = styled.div`
-  border: solid 1px black;
+  padding: 0 10px;
 `;
 
 const StyledDiv3 = styled.div`
-  border: solid 1px white;
+  padding: 20px;
+  background-color: #01394c;
+  margin-bottom: 10px;
+  span {
+    color: white;
+    font-weight: 200;
+    letter-spacing: 1px;
+  }
+  button {
+    display: block;
+    background: #006789;
+    color: white;
+    border: none;
+    width: 75px;
+    margin-top: 10px;
+    padding: 5px 0;
+    text-align: center;
+    text-decoration: none;
+    font-size: 0.7rem;
+    border-radius: 4px;
+    font-weight: 400;
+    outline: none;
+    &:hover {
+      background: #008dbc;
+      box-shadow: 3px 4px 8px 1px #001e28;
+    }
+  }
 `;
 
 const StyledH1 = styled.h1`
@@ -198,10 +244,6 @@ const StyledButton = styled.button`
   padding: 5px 20px;
   text-align: center;
   text-decoration: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
   font-size: 1rem;
   border: solid 1px #48484841;
   border-radius: 4px;

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { login } from "../../services/session/actions";
 import styled from "styled-components";
 import Error from '../../components/Error';
+import { AuthCard, CenteredDiv, Button, Spinner } from '../../styles';
 
 class Login extends Component {
   constructor(props) {
@@ -27,29 +28,33 @@ class Login extends Component {
 
   render() {
     return (
-      <StyledForm>
-        <StyledH2>Team Builder Login</StyledH2>
-        <Error error={this.props.authenticationError}/>
-        <StyledInput
-          type="text"
-          placeholder="Email"
-          name="email"
-          value={this.state.email}
-          onChange={this.handleChanges}
-        />
-        <StyledInput
-          type="password"
-          placeholder="Password"
-          name="password"
-          value={this.state.password}
-          onChange={this.handleChanges}
-        />{" "}
-        <br />
-        <StyledButton onClick={this.handleLogin}
-                      className={this.props.authenticating ? "loading" : ""}>
-          Log In
-        </StyledButton>
-      </StyledForm>
+      <CenteredDiv>
+        <AuthCard>
+          <StyledForm>
+            <StyledH2>Team Builder Login</StyledH2>
+            <Error error={this.props.authenticationError}/>
+            <StyledInput
+              type="text"
+              placeholder="Email"
+              name="email"
+              value={this.state.email}
+              onChange={this.handleChanges}
+            />
+            <StyledInput
+              type="password"
+              placeholder="Password"
+              name="password"
+              value={this.state.password}
+              onChange={this.handleChanges}
+            />{" "}
+            <br />
+            <Button onClick={this.handleLogin}>
+              Log In
+              {this.props.authenticating && <Spinner />}
+            </Button>
+          </StyledForm>
+        </AuthCard>
+      </CenteredDiv>
     );
   }
 }
@@ -67,23 +72,16 @@ export default connect(
 const StyledForm = styled.form`
   width: 348px;
   height: 363px;
-  border: solid 1px rgba(164, 164, 164, 0.488);
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  border-radius: 8px;
-  margin: auto;
-  margin-top: 100px;
-  background-color: rgba(157, 157, 157, 0.071);
 `;
 
 const StyledInput = styled.input`
-  background-color: rgb(255, 255, 255);
   color: #1a1a1a;
   font-size: 1rem;
   border: none;
-  font-weight: 100;
   outline: none;
   text-align: center;
   height: 40px;
@@ -105,6 +103,7 @@ const StyledButton = styled.button`
   font-size: 16px;
   border: solid 1px #48484841;
   border-radius: 4px;
+  position: relative;
 `;
 
 const StyledH2 = styled.h2`

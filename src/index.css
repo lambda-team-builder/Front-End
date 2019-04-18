@@ -1,4 +1,9 @@
-#app, body {
-    margin: 0;
-    padding: 0;
+#app,
+body {
+  margin: 0;
+  padding: 0;
+  background: #002733;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }

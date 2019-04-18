@@ -2,6 +2,25 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <style media="all">
+      html,
+      body {
+        height: 100%;
+      }
+      #outer {
+        min-height: 100%;
+      }
+
+      * html #outer {
+        height: 100%;
+      } /* for IE 6, if you care */
+
+      body,
+      p {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.png" />
     <meta
       name="viewport"

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { getClassroom, addProject, editClassroom } from '../../services/classroom/actions.js';
+import {
+  getClassroom, addProject, editClassroom, removeUserFromSlot, createSlot
+} from '../../services/classroom/actions.js';
 import Modal from '../../components/Modal';
 
 const Classroom = (props) => {
@@ -20,6 +22,7 @@ const Classroom = (props) => {
     props.editClassroom(classroom_id, {name: event.target.name.value})
       .then(({payload}) => payload && closeModal());
   };
+  const [editId, setEditId] = useState(null);
   return (
     <div>
       <h1>{props.name}</h1>
@@ -35,9 +38,9 @@ const Classroom = (props) => {
             <span>{proj.name}</span>
             <span> Description: {proj.description.substring(0, 20)}...</span>
             <span>
-              {proj.roles.map(([role_name, {slots, empty}]) => (
-                <div key={role_name}>
-                  {role_name + " (" + empty + "): "}
+              {proj.roles.map(({name, slots, empty, id}) => (
+                <div key={id}>
+                  {name + " (" + empty + "): "}
                   <span>
                     {slots.map(slot => <span key={slot.id}>{slot.user_name || "empty"}</span>)}
                     {" "}
@@ -45,15 +48,60 @@ const Classroom = (props) => {
                 </div>
               ))}
             </span>
+            <button onClick={() => {setModalTarget("editProject"); setEditId(proj.id);}}>
+              Edit Project</button>
           </div>
         ))}
       </div>
-      {modalTarget === "editClassroom" &&
+      {modalTarget &&
        <Modal handleClose={closeModal}>
-         <form onSubmit={handleEditClassroom}>
-           <input type="text" name="name" palceholder="name"/>
-           <button type="submit">Edit Classroom</button>
-         </form>
+         {(() => {
+           switch (modalTarget) {
+           case "editClassroom":
+             return (
+               <form onSubmit={handleEditClassroom}>
+                 <input type="text" name="name" palceholder="name"/>
+                 <button type="submit">Edit Classroom</button>
+               </form>
+             );
+           case "editProject":
+             const project = props.projects.find(({id}) => id === editId);
+             return (
+               <div style={{background: "white"}}>
+               <form>
+                 <input type="text" name="name" placeholder="name" defaultValue={project.name}/>
+                 <textarea name="description" placeholder="description" defaultValue={project.description}/>
+                 <button type="submit" disabled>Submit Changes</button>
+               </form>
+                 <h2>Roles</h2>
+                 {project.roles.map(({name, slots, id: role_id}) => (
+                   <div key={name}>
+                     <div>{name}</div>
+                     {slots.map(slot => {
+                       if (slot.user_name) {
+                         return <div key={slot.id}>
+                                  {slot.user_name}
+                                  <button onClick={() => (
+                                    props.removeUserFromSlot(classroom_id, slot.id)
+                                  )}>
+                                    Remove
+                                  </button>
+                                </div>;
+                       } else {
+                         return <div key={slot.id}>
+                                  Empty
+                                </div>;
+                       }
+                     })}
+                     <button onClick={() => props.createSlot(classroom_id, project.id, {role_id})}>Add Slot</button>
+                   </div>
+                 ))}
+                 <button disabled>Add Role</button>
+               </div>
+             );
+           default:
+             return null;
+           }})()}
        </Modal>
       }
     </div>
@@ -64,4 +112,6 @@ const mapStateToProps = ({classroom}) => {
   return classroom;
 };
 
-export default connect(mapStateToProps, { getClassroom, addProject, editClassroom })(Classroom);
+export default connect(mapStateToProps, {
+  getClassroom, addProject, editClassroom, removeUserFromSlot, createSlot
+})(Classroom);

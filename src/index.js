@@ -6,9 +6,10 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { rootReducer } from './services';
+import './index.css';
 
 const middleware = [ thunk ];
-if (process.env.NODE_ENV === "development") {
+if (true) { //(process.env.NODE_ENV === "development") {
   const logger = require('redux-logger').default;
   middleware.push(logger);
 }

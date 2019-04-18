@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const backendHost = (process.env.NODE_ENV === "development"
                      ? "http://localhost:5000"
-                     : "some-heroku-url");
+                     : "https://lambda-team-builder.herokuapp.com");
 
 const API_URL = `${backendHost}/api`;
 
@@ -34,13 +34,17 @@ export const getProjects = ({name, description}) => {
   return axiosWithAuth().get(`${API_URL}/projects/`, {name, description});
 };
 
+export const getMemberProjects = () => {
+  return axiosWithAuth().get(`${API_URL}/projects/mine`);
+};
+
 // project member slots
-export const addUserToMemberSlot = (member_slot_id, {user_id}) => {
-  return axiosWithAuth().put(`${API_URL}/project_members/${member_slot_id}`, {user_id});
+export const addUserToMemberSlot = (member_slot_id, {classroom_member_id}) => {
+  return axiosWithAuth().put(`${API_URL}/project_members/${member_slot_id}`, {classroom_member_id});
 };
 
 export const removeUserFromMemberSlot = (member_slot_id) => {
-  return axiosWithAuth().put(`${API_URL}/project_members/${member_slot_id}`, {user_id: null});
+  return axiosWithAuth().put(`${API_URL}/project_members/${member_slot_id}`, {classroom_member_id: null});
 };
 
 export const joinMemberSlot = (member_slot_id) => {
@@ -65,8 +69,8 @@ export const updateRole = (id, {name}) => {
 };
 
 // classrooms
-export const createClassroom = ({name}) => {
-  return axiosWithAuth().post(`${API_URL}/classrooms`, {name});
+export const createClassroom = ({name, password}) => {
+  return axiosWithAuth().post(`${API_URL}/classrooms`, {name, password});
 };
 
 export const editClassroom = (id, {name}) => {
@@ -81,18 +85,23 @@ export const getClassrooms = () => {
   return axiosWithAuth().get(`${API_URL}/classrooms/`);
 };
 
+export const getClassroomMembers = (id) => {
+  return axiosWithAuth().get(`${API_URL}/classrooms/${id}/members`);
+};
+
 export const addProjectToClassroom = (classroom_id, {project_id}) => {
   return axiosWithAuth().post(`${API_URL}/classrooms/${classroom_id}/projects`, {project_id});
 };
 
-export const getClasssroomProject = (classroom_id, classroom_project_id) => {
+// route is bugged
+export const getClassroomProject = (classroom_id, classroom_project_id) => {
   return axiosWithAuth()
     .get(`${API_URL}/classrooms/${classroom_id}/projects/${classroom_project_id}`);
 };
 
 export const createMemberSlot = (classroom_id, classroom_project_id, {role_id}) => {
   return axiosWithAuth()
-    .post(`${API_URL}/classrooms/${classroom_id}/projects/${classroom_project_id}/project_member`,
+    .post(`${API_URL}/classrooms/${classroom_id}/classroom_projects/${classroom_project_id}/project_members`,
           {role_id});
 };
 

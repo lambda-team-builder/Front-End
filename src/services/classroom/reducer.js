@@ -64,11 +64,16 @@ const getUniqueRoles = projects => {
 export const classroomReducer = (state = initialState, action) => {
   switch (action.type) {
   case GET_CLASSROOM_START:
+    console.log(state.id, action.classroom_id);
+    var payload = (state.id !== action.classroom_id
+                   ? {projects: [],
+                     id: null,
+                     name: " ",
+                     members: []}
+                   : {});
     return {
       ...state,
-      // id: null,
-      // name: " ",
-      // projects: [],
+      ...payload,
       gettingClassroom: true,
       classroomError: null
     };

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import {
-  getClassroom, addProject, editClassroom, removeUserFromSlot, createSlot
+  getClassroom, addProject, editClassroom, addUserToSlot, removeUserFromSlot, createSlot, getMembers,
+  createRole,
 } from '../../services/classroom/actions.js';
 import Modal from '../../components/Modal';
 
@@ -9,6 +10,7 @@ const Classroom = (props) => {
   const classroom_id = props.match.params.classroom_id;
   useEffect(() => {
     props.getClassroom(classroom_id);
+    props.getMembers(classroom_id);
   }, [classroom_id]);
   const handleAddProject = event => {
     event.preventDefault();
@@ -23,6 +25,8 @@ const Classroom = (props) => {
       .then(({payload}) => payload && closeModal());
   };
   const [editId, setEditId] = useState(null);
+  const [addSlotId, setAddSlotId] = useState(null);
+  const [addingRole, setAddingRole] = useState(false);
   return (
     <div>
       <h1>{props.name}</h1>
@@ -88,15 +92,50 @@ const Classroom = (props) => {
                                   </button>
                                 </div>;
                        } else {
-                         return <div key={slot.id}>
-                                  Empty
-                                </div>;
+                         return (
+                           addSlotId === slot.id
+                             ? <div key={slot.id}>
+                                 {props.members.map(({user_id, classroom_member_id, user_name}) => (
+                                   <span key={user_id}
+                                         onClick={() => (
+                                           props.addUserToSlot(classroom_id, slot.id, {classroom_member_id})
+                                             .then(() => setAddSlotId(null))
+                                         )}>
+                                     {user_name}
+                                   </span>
+                                 ))}
+                               </div>
+                             : <button key={slot.id}
+                                       onClick={() => setAddSlotId(slot.id)}>
+                                 Empty
+                               </button>
+                         );
                        }
                      })}
                      <button onClick={() => props.createSlot(classroom_id, project.id, {role_id})}>Add Slot</button>
                    </div>
                  ))}
-                 <button disabled>Add Role</button>
+                 <button onClick={() => setAddingRole(true)}>Add Role</button>
+                 {addingRole &&
+                  <div>
+                    {props.uniqueRoles.map(({name, id: role_id}) => (
+                      <button key={role_id}
+                           onClick={() => (
+                             props.createSlot(classroom_id, project.id, {role_id})
+                               .then(() => setAddingRole(false)))}>
+                        {name}
+                      </button>))}
+                    <form onSubmit={e => {
+                      e.preventDefault();
+                      e.target.role.value.trim() !== "" &&
+                        props.createRole(classroom_id, project.id, {name: e.target.role.value})
+                        .then(() => setAddingRole(false));
+                    }}>
+                      <input type="text" name="role" placeholder="new role"/>
+                      <button type="submit">New Role</button>
+                    </form>
+                  </div>
+                 }
                </div>
              );
            default:
@@ -113,5 +152,6 @@ const mapStateToProps = ({classroom}) => {
 };
 
 export default connect(mapStateToProps, {
-  getClassroom, addProject, editClassroom, removeUserFromSlot, createSlot
+  getClassroom, addProject, editClassroom, addUserToSlot, removeUserFromSlot, createSlot,
+  getMembers, createRole,
 })(Classroom);

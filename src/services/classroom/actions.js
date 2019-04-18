@@ -62,15 +62,15 @@ export const editClassroom = (classroom_id, {name}) => dispatch => {
     .catch(error => dispatch({ type: EDIT_CLASSROOM_FAILURE, error: error}));
 };
 
-export const REMOVE_USER_FROM_SLOT_START = 'REMOVE_USER_FROM_SLOT_START';
-export const REMOVE_USER_FROM_SLOT_SUCCESS = 'REMOVE_USER_FROM_SLOT_SUCCESS';
-export const REMOVE_USER_FROM_SLOT_FAILURE = 'REMOVE_USER_FROM_SLOT_FAILURE';
+export const ADD_USER_TO_SLOT_START = 'ADD_USER_TO_SLOT_START';
+export const ADD_USER_TO_SLOT_SUCCESS = 'ADD_USER_TO_SLOT_SUCCESS';
+export const ADD_USER_TO_SLOT_FAILURE = 'ADD_USER_TO_SLOT_FAILURE';
 
-export const removeUserFromSlot = (classroom_id, member_slot_id) => dispatch => {
-  dispatch({ type: REMOVE_USER_FROM_SLOT_START });
-  return api.removeUserFromMemberSlot(member_slot_id)
+export const addUserToSlot = (classroom_id, member_slot_id, {classroom_member_id}) => dispatch => {
+  dispatch({ type: ADD_USER_TO_SLOT_START });
+  return api.addUserToMemberSlot(member_slot_id, {classroom_member_id})
     .then(res => {
-      dispatch({ type: REMOVE_USER_FROM_SLOT_SUCCESS, payload: res.data });
+      dispatch({ type: ADD_USER_TO_SLOT_SUCCESS, payload: res.data });
       // return getProject(classroom_id*1, classroom_project_id)(dispatch);
       // I am aware doing this introduces a race condition where a user can
       // navigate to a different classroom and that request will execute and
@@ -78,7 +78,11 @@ export const removeUserFromSlot = (classroom_id, member_slot_id) => dispatch => 
       // choosing to ignore it for now.
       return getClassroom(classroom_id)(dispatch);
     })
-    .catch(error => dispatch({ type: REMOVE_USER_FROM_SLOT_FAILURE, error: error}));
+    .catch(error => dispatch({ type: ADD_USER_TO_SLOT_FAILURE, error: error}));
+};
+
+export const removeUserFromSlot = (classroom_id, member_slot_id) => dispatch => {
+  return addUserToSlot(classroom_id, member_slot_id, {classroom_member_id: null})(dispatch);
 };
 
 export const CREATE_SLOT_START = 'CREATE_SLOT_START';
@@ -98,4 +102,18 @@ export const createSlot = (classroom_id, classroom_project_id, {role_id}) => dis
       return getClassroom(classroom_id)(dispatch);
     })
     .catch(error => dispatch({ type: CREATE_SLOT_FAILURE, error: error}));
+};
+
+export const CREATE_ROLE_START = 'CREATE_ROLE_START';
+export const CREATE_ROLE_SUCCESS = 'CREATE_ROLE_SUCCESS';
+export const CREATE_ROLE_FAILURE = 'CREATE_ROLE_FAILURE';
+
+export const createRole = (classroom_id, classroom_project_id, {name}) => dispatch => {
+  dispatch({ type: CREATE_ROLE_START });
+  return api.createRole({name})
+    .then(res => {
+      return createSlot(classroom_id, classroom_project_id, {role_id: res.data.id})(dispatch)
+        .then(() => dispatch({ type: CREATE_ROLE_SUCCESS, payload: res.data }));
+    })
+    .catch(error => dispatch({ type: CREATE_ROLE_FAILURE, error: error}));
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+const values = ["henry", "edward", "blevins"];
 const Landing = (props) => {
   return (
     <div>
@@ -9,5 +10,6 @@ const Landing = (props) => {
     </div>
   );
 };
+
 
 export default Landing;

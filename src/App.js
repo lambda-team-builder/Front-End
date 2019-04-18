@@ -6,6 +6,7 @@ import Home from "./scenes/Home";
 import Classroom from "./scenes/Classroom";
 import Landing from "./scenes/Landing";
 import styled from "styled-components";
+import { colors } from './styles';
 
 const App = props => {
   return (
@@ -27,4 +28,5 @@ const AppDiv = styled.div`
     sans-serif;
   margin: 0;
   padding: 0;
+  color: ${colors.evening};
 `;

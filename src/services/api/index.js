@@ -30,6 +30,10 @@ export const createProject = ({name, description}) => {
   return axiosWithAuth().post(`${API_URL}/projects/`, {name, description});
 };
 
+export const updateProject = (project_id, {name, description}) => {
+  return axiosWithAuth().put(`${API_URL}/projects/${project_id}`, {name, description});
+};
+
 export const getProjects = ({name, description}) => {
   return axiosWithAuth().get(`${API_URL}/projects/`, {name, description});
 };
@@ -45,6 +49,10 @@ export const addUserToMemberSlot = (member_slot_id, {classroom_member_id}) => {
 
 export const removeUserFromMemberSlot = (member_slot_id) => {
   return axiosWithAuth().put(`${API_URL}/project_members/${member_slot_id}`, {classroom_member_id: null});
+};
+
+export const deleteMemberSlot = (classroom_id, classroom_project_id, project_member_id) => {
+  return axiosWithAuth().delete(`${API_URL}/classrooms/${classroom_id}/classroom_projects/${classroom_project_id}/project_members/${project_member_id}`, {classroom_member_id: null});
 };
 
 export const joinMemberSlot = (member_slot_id) => {

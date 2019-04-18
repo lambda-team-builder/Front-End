@@ -2,9 +2,12 @@ import {
   GET_CLASSROOM_START, GET_CLASSROOM_SUCCESS, GET_CLASSROOM_FAILURE,
   ADD_PROJECT_START, ADD_PROJECT_SUCCESS, ADD_PROJECT_FAILURE,
   // GET_PROJECT_START, GET_PROJECT_SUCCESS, GET_PROJECT_FAILURE,
+  UPDATE_PROJECT_START, UPDATE_PROJECT_SUCCESS, UPDATE_PROJECT_FAILURE,
   EDIT_CLASSROOM_START, EDIT_CLASSROOM_SUCCESS, EDIT_CLASSROOM_FAILURE,
   CREATE_SLOT_START, CREATE_SLOT_SUCCESS, CREATE_SLOT_FAILURE,
-  REMOVE_USER_FROM_SLOT_START, REMOVE_USER_FROM_SLOT_SUCCESS, REMOVE_USER_FROM_SLOT_FAILURE,
+  DELETE_SLOT_START, DELETE_SLOT_SUCCESS, DELETE_SLOT_FAILURE,
+  CREATE_ROLE_START, CREATE_ROLE_SUCCESS, CREATE_ROLE_FAILURE,
+  ADD_USER_TO_SLOT_START, ADD_USER_TO_SLOT_SUCCESS, ADD_USER_TO_SLOT_FAILURE,
   GET_MEMBERS_START, GET_MEMBERS_SUCCESS, GET_MEMBERS_FAILURE,
 } from './actions.js';
 
@@ -18,13 +21,19 @@ const initialState = {
   addingProjectError: null,
   editingClassroom: false,
   editClassroomError: null,
-  removingUserFromSlot: false,
-  removeUserFromSlotError: null,
+  addingUserToSlot: false,
+  addUserToSlotError: null,
   creatingSlot: false,
   createSlotError: null,
   gettingMembers: false,
   members: [],
   getMembersError: null,
+  creatingRole: false,
+  createRoleError: null,
+  deletingSlot: false,
+  deleteSlotError: null,
+  updatingProject: false,
+  updateProjectError: null,
 };
 
 const transformRoles = roles => {
@@ -34,9 +43,7 @@ const transformRoles = roles => {
   // transform to array and sort by role_name
   newRoles = Object.entries(newRoles).sort(([nameA], [nameB]) => nameA < nameB ? 0 : 1);
   // transform to map
-  newRoles = newRoles.map(([name, slots]) => (
-    // console.log(slots[0], slots[0].role_id) ||
-    {
+  newRoles = newRoles.map(([name, slots]) => ({
     name, 
     slots,
     empty: slots.filter(s => !s.user_id).length,
@@ -45,14 +52,28 @@ const transformRoles = roles => {
   return newRoles;
 };
 
+const getUniqueRoles = projects => {
+  const ids = {};
+  return projects
+    .reduce((acc, {roles}) => {
+      roles.forEach(({id, name}) => ids[id] || ((ids[id] = true) && acc.push({id, name})));
+      return acc;
+    }, []);
+};
+
 export const classroomReducer = (state = initialState, action) => {
   switch (action.type) {
   case GET_CLASSROOM_START:
+    console.log(state.id, action.classroom_id);
+    var payload = (state.id !== action.classroom_id
+                   ? {projects: [],
+                     id: null,
+                     name: " ",
+                     members: []}
+                   : {});
     return {
       ...state,
-      // id: null,
-      // name: " ",
-      // projects: [],
+      ...payload,
       gettingClassroom: true,
       classroomError: null
     };
@@ -70,6 +91,7 @@ export const classroomReducer = (state = initialState, action) => {
       ...state,
       ...action.payload,
       projects: projects,
+      uniqueRoles: getUniqueRoles(projects),
       gettingClassroom: false,
       classroomError: null
     };
@@ -156,23 +178,23 @@ export const classroomReducer = (state = initialState, action) => {
       editingClassroom: false,
       editClassroomError: action.error
     };
-  case REMOVE_USER_FROM_SLOT_START:
+  case ADD_USER_TO_SLOT_START:
     return {
       ...state,
-      removingUserFromSlot: true,
-      removeUserFromSlotError: null
+      addingUserToSlot: true,
+      addUserToSlotError: null
     };
-  case REMOVE_USER_FROM_SLOT_SUCCESS:
+  case ADD_USER_TO_SLOT_SUCCESS:
     return {
       ...state,
-      removingUserFromSlot: false,
-      removeUserFromSlotError: null
+      addingUserToSlot: false,
+      addUserToSlotError: null
     };
-  case REMOVE_USER_FROM_SLOT_FAILURE:
+  case ADD_USER_TO_SLOT_FAILURE:
     return {
       ...state,
-      removingUserFromSlot: false,
-      removeUserFromSlotError: action.error
+      addingUserToSlot: false,
+      addUserToSlotError: action.error
     };
   case CREATE_SLOT_START:
     return {
@@ -192,6 +214,42 @@ export const classroomReducer = (state = initialState, action) => {
       creatingSlot: false,
       createSlotError: action.error,
     };
+  case DELETE_SLOT_START:
+    return {
+      ...state,
+      deletingSlot: true,
+      deleteSlotError: null,
+    };
+  case DELETE_SLOT_SUCCESS:
+    return {
+      ...state,
+      deletingSlot: false,
+      deleteSlotError: null,
+    };
+  case DELETE_SLOT_FAILURE:
+    return {
+      ...state,
+      deletingSlot: false,
+      deleteSlotError: action.error,
+    };
+  case CREATE_ROLE_START:
+    return {
+      ...state,
+      creatingRole: true,
+      createRoleError: null,
+    };
+  case CREATE_ROLE_SUCCESS:
+    return {
+      ...state,
+      creatingRole: false,
+      createRoleError: null,
+    };
+  case CREATE_ROLE_FAILURE:
+    return {
+      ...state,
+      creatingRole: false,
+      createRoleError: action.error,
+    };
   case GET_MEMBERS_START:
     return {
       ...state,
@@ -210,6 +268,24 @@ export const classroomReducer = (state = initialState, action) => {
       ...state,
       gettingMembers: false,
       getMembersError: action.error,
+    };
+  case UPDATE_PROJECT_START:
+    return {
+      ...state,
+      updatingProject: true,
+      updateProjectError: null,
+    };
+  case UPDATE_PROJECT_SUCCESS:
+    return {
+      ...state,
+      updatingProject: false,
+      updateProjectError: null,
+    };
+  case UPDATE_PROJECT_FAILURE:
+    return {
+      ...state,
+      updatingProject: false,
+      updateProjectError: action.error,
     };
   default:
     return state;

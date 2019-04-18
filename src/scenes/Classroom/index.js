@@ -73,81 +73,89 @@ const Classroom = props => {
           </StyledDiv3>
         ))}
       </StyledDiv2>
+
       {modalTarget && (
-        <Modal handleClose={closeModal}>
-          {(() => {
-            switch (modalTarget) {
-              case "editClassroom":
-                return (
-                  <form onSubmit={handleEditClassroom}>
-                    <input type="text" name="name" palceholder="name" />
-                    <button type="submit">Edit Classroom</button>
-                  </form>
-                );
-              case "editProject":
-                const project = props.projects.find(({ id }) => id === editId);
-                return (
-                  <div style={{ background: "white" }}>
-                    <form>
-                      <input
-                        type="text"
-                        name="name"
-                        placeholder="name"
-                        defaultValue={project.name}
-                      />
-                      <textarea
-                        name="description"
-                        placeholder="description"
-                        defaultValue={project.description}
-                      />
-                      <button type="submit" disabled>
-                        Submit Changes
-                      </button>
+        <ModalDiv>
+          <Modal handleClose={closeModal}>
+            {(() => {
+              switch (modalTarget) {
+                case "editClassroom":
+                  return (
+                    <form onSubmit={handleEditClassroom}>
+                      <input type="text" name="name" palceholder="name" />
+                      <button type="submit">Edit Classroom</button>
                     </form>
-                    <h2>Roles</h2>
-                    {project.roles.map(({ name, slots, id: role_id }) => (
-                      <div key={name}>
-                        <div>{name}</div>
-                        {slots.map(slot => {
-                          if (slot.user_name) {
-                            return (
-                              <div key={slot.id}>
-                                {slot.user_name}
-                                <button
-                                  onClick={() =>
-                                    props.removeUserFromSlot(
-                                      classroom_id,
-                                      slot.id
-                                    )
-                                  }
-                                >
-                                  Remove
-                                </button>
-                              </div>
-                            );
-                          } else {
-                            return <div key={slot.id}>Empty</div>;
-                          }
-                        })}
-                        <button
-                          onClick={() =>
-                            props.createSlot(classroom_id, project.id, {
-                              role_id
-                            })
-                          }
-                        >
-                          Add Slot
+                  );
+                case "editProject":
+                  const project = props.projects.find(
+                    ({ id }) => id === editId
+                  );
+                  return (
+                    <ModleDivTwo>
+                      <form>
+                        <input
+                          type="text"
+                          name="name"
+                          placeholder="name"
+                          defaultValue={project.name}
+                        />
+                        <textarea
+                          name="description"
+                          placeholder="description"
+                          defaultValue={project.description}
+                        />
+                        <button type="submit" disabled>
+                          Submit Changes
                         </button>
-                      </div>
-                    ))}
-                    <button disabled>Add Role</button>
-                  </div>
-                );
-              default:
-                return null;
-            }
-          })()}
-        </Modal>
+                      </form>
+                      <h2>Roles</h2>
+                      {project.roles.map(({ name, slots, id: role_id }) => (
+                        <RolesSlot key={name}>
+                          <div>
+                            <h3>{name}</h3>
+                            <button
+                              onClick={() =>
+                                props.createSlot(classroom_id, project.id, {
+                                  role_id
+                                })
+                              }
+                            >
+                              Add Slot
+                            </button>
+                          </div>
+                          <hr />
+                          {slots.map(slot => {
+                            if (slot.user_name) {
+                              return (
+                                <div key={slot.id}>
+                                  {slot.user_name}
+                                  <button
+                                    onClick={() =>
+                                      props.removeUserFromSlot(
+                                        classroom_id,
+                                        slot.id
+                                      )
+                                    }
+                                  >
+                                    Remove
+                                  </button>
+                                </div>
+                              );
+                            } else {
+                              return <div key={slot.id}>Empty</div>;
+                            }
+                          })}
+                        </RolesSlot>
+                      ))}
+                      <button disabled>Add Role</button>
+                    </ModleDivTwo>
+                  );
+                default:
+                  return null;
+              }
+            })()}
+          </Modal>
+        </ModalDiv>
       )}
     </StyledDiv>
   );
@@ -249,4 +257,151 @@ const StyledButton = styled.button`
   border-radius: 4px;
   font-weight: 100;
   outline: none;
+`;
+
+const ModalDiv = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 800px;
+  height: 100vh;
+  background: #1a1a1a66;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  input {
+    box-sizing: border-box;
+    background-color: rgb(255, 255, 255);
+    border: none;
+    width: 200px;
+    color: black;
+    outline: none;
+    margin: 10px;
+    padding: 5px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: 100;
+    border: solid 1px #48484841;
+    border-radius: 4px;
+  }
+  button {
+    background: #006789;
+    box-sizing: border-box;
+    color: white;
+    border: none;
+    width: 200px;
+    margin: 10px;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    font-size: 1rem;
+    border: solid 1px #48484841;
+    border-radius: 4px;
+    outline: none;
+    &:hover {
+      background: #008dbc;
+      box-shadow: 3px 4px 8px 1px #001e28;
+    }
+  }
+`;
+
+const ModleDivTwo = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background: #13131388;
+  border-radius: 8px;
+  width: 50%;
+  h2 {
+    color: white;
+  }
+  textarea {
+    resize: none;
+    width: 200px;
+    height: 100px;
+    margin: 10px;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    background: transparent;
+    color: white;
+    font-size: 1rem;
+  }
+  form {
+    display: flex;
+    justify-content: center;
+  }
+  h3 {
+    color: white;
+  }
+  div {
+    color: white;
+  }
+  button {
+    display: block;
+    background: #006789;
+    color: white;
+    border: none;
+    width: 100px;
+    margin-top: 10px;
+    padding: 4px 0;
+    text-align: center;
+    text-decoration: none;
+    font-size: 0.7rem;
+    border-radius: 4px;
+    font-weight: 400;
+    outline: none;
+    &:hover {
+      background: #008dbc;
+      box-shadow: 3px 4px 8px 1px #001e28;
+    }
+  }
+`;
+
+const RolesSlot = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  align-items: baseline;
+  div {
+    width: 100%;
+    display: flex;
+    margin-bottom: 0;
+    padding: 0;
+    justify-content: space-between;
+    align-items: center;
+  }
+  button:first-child {
+  }
+  hr {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(
+      to right,
+      rgba(225, 225, 225, 0),
+      rgba(225, 255, 255, 0.75),
+      rgba(0, 0, 0, 0)
+    );
+  }
+  div:first-child {
+    margin-bottom: 0px;
+  }
+  div:not(:first-child) {
+    margin-top: 30px;
+  }
 `;

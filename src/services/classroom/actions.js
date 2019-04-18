@@ -104,6 +104,20 @@ export const createSlot = (classroom_id, classroom_project_id, {role_id}) => dis
     .catch(error => dispatch({ type: CREATE_SLOT_FAILURE, error: error}));
 };
 
+export const DELETE_SLOT_START = 'DELETE_SLOT_START';
+export const DELETE_SLOT_SUCCESS = 'DELETE_SLOT_SUCCESS';
+export const DELETE_SLOT_FAILURE = 'DELETE_SLOT_FAILURE';
+
+export const deleteSlot = (classroom_id, classroom_project_id, project_member_id) => dispatch => {
+  dispatch({ type: DELETE_SLOT_START });
+  return api.deleteMemberSlot(classroom_id, classroom_project_id, project_member_id)
+    .then(res => {
+      dispatch({ type: DELETE_SLOT_SUCCESS, payload: res.data });
+      return getClassroom(classroom_id)(dispatch);
+    })
+    .catch(error => dispatch({ type: DELETE_SLOT_FAILURE, error: error}));
+};
+
 export const CREATE_ROLE_START = 'CREATE_ROLE_START';
 export const CREATE_ROLE_SUCCESS = 'CREATE_ROLE_SUCCESS';
 export const CREATE_ROLE_FAILURE = 'CREATE_ROLE_FAILURE';

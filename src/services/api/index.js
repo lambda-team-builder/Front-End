@@ -47,6 +47,10 @@ export const removeUserFromMemberSlot = (member_slot_id) => {
   return axiosWithAuth().put(`${API_URL}/project_members/${member_slot_id}`, {classroom_member_id: null});
 };
 
+export const deleteMemberSlot = (classroom_id, classroom_project_id, project_member_id) => {
+  return axiosWithAuth().delete(`${API_URL}/classrooms/${classroom_id}/classroom_projects/${classroom_project_id}/project_members/${project_member_id}`, {classroom_member_id: null});
+};
+
 export const joinMemberSlot = (member_slot_id) => {
   return axiosWithAuth().put(`${API_URL}/project_members/${member_slot_id}/join`);
 };

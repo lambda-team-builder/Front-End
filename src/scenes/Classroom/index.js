@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import {
   getClassroom, addProject, editClassroom, addUserToSlot, removeUserFromSlot, createSlot, getMembers,
-  createRole,
+  createRole, deleteSlot,
 } from '../../services/classroom/actions.js';
 import Modal from '../../components/Modal';
 
@@ -105,10 +105,13 @@ const Classroom = (props) => {
                                    </span>
                                  ))}
                                </div>
-                             : <button key={slot.id}
-                                       onClick={() => setAddSlotId(slot.id)}>
-                                 Empty
-                               </button>
+                           :
+                           <div key={slot.id}>
+                             <button onClick={() => setAddSlotId(slot.id)}>
+                               Empty
+                             </button>
+                             <button onClick={() => props.deleteSlot(classroom_id, project.id, slot.id)}>Delete</button>
+                           </div>
                          );
                        }
                      })}
@@ -153,5 +156,5 @@ const mapStateToProps = ({classroom}) => {
 
 export default connect(mapStateToProps, {
   getClassroom, addProject, editClassroom, addUserToSlot, removeUserFromSlot, createSlot,
-  getMembers, createRole,
+  getMembers, createRole, deleteSlot,
 })(Classroom);

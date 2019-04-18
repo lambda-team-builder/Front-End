@@ -74,7 +74,7 @@ const Classroom = (props) => {
                  <button type="submit" disabled>Submit Changes</button>
                </form>
                  <h2>Roles</h2>
-                 {project.roles.map(({name, slots}) => (
+                 {project.roles.map(({name, slots, id: role_id}) => (
                    <div key={name}>
                      <div>{name}</div>
                      {slots.map(slot => {
@@ -93,7 +93,7 @@ const Classroom = (props) => {
                                 </div>;
                        }
                      })}
-                     <button onClick={() => props.createSlot(classroom_id, project.id, {})}>Add Slot</button>
+                     <button onClick={() => props.createSlot(classroom_id, project.id, {role_id})}>Add Slot</button>
                    </div>
                  ))}
                  <button disabled>Add Role</button>

@@ -11,6 +11,17 @@ export const getClassroom = (id) => dispatch => {
     .catch(error => dispatch({ type: GET_CLASSROOM_FAILURE, error: error }));
 };
 
+export const GET_MEMBERS_START = 'GET_MEMBERS_START';
+export const GET_MEMBERS_SUCCESS = 'GET_MEMBERS_SUCCESS';
+export const GET_MEMBERS_FAILURE = 'GET_MEMBERS_FAILURE';
+
+export const getMembers = (id) => dispatch => {
+  dispatch({ type: GET_MEMBERS_START });
+  return api.getClassroomMembers(id)
+    .then(res => dispatch({ type: GET_MEMBERS_SUCCESS, payload: res.data }))
+    .catch(error => dispatch({ type: GET_MEMBERS_FAILURE, error: error }));
+};
+
 export const ADD_PROJECT_START = 'ADD_PROJECT_START';
 export const ADD_PROJECT_SUCCESS = 'ADD_PROJECT_SUCCESS';
 export const ADD_PROJECT_FAILURE = 'ADD_PROJECT_FAILURE';

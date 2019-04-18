@@ -85,6 +85,10 @@ export const getClassrooms = () => {
   return axiosWithAuth().get(`${API_URL}/classrooms/`);
 };
 
+export const getClassroomMembers = (id) => {
+  return axiosWithAuth().get(`${API_URL}/classrooms/${id}/members`);
+};
+
 export const addProjectToClassroom = (classroom_id, {project_id}) => {
   return axiosWithAuth().post(`${API_URL}/classrooms/${classroom_id}/projects`, {project_id});
 };

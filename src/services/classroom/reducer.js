@@ -5,6 +5,7 @@ import {
   EDIT_CLASSROOM_START, EDIT_CLASSROOM_SUCCESS, EDIT_CLASSROOM_FAILURE,
   CREATE_SLOT_START, CREATE_SLOT_SUCCESS, CREATE_SLOT_FAILURE,
   REMOVE_USER_FROM_SLOT_START, REMOVE_USER_FROM_SLOT_SUCCESS, REMOVE_USER_FROM_SLOT_FAILURE,
+  GET_MEMBERS_START, GET_MEMBERS_SUCCESS, GET_MEMBERS_FAILURE,
 } from './actions.js';
 
 const initialState = {
@@ -20,7 +21,10 @@ const initialState = {
   removingUserFromSlot: false,
   removeUserFromSlotError: null,
   creatingSlot: false,
-  createSlotError: null
+  createSlotError: null,
+  gettingMembers: false,
+  members: [],
+  getMembersError: null,
 };
 
 const transformRoles = roles => {
@@ -30,7 +34,9 @@ const transformRoles = roles => {
   // transform to array and sort by role_name
   newRoles = Object.entries(newRoles).sort(([nameA], [nameB]) => nameA < nameB ? 0 : 1);
   // transform to map
-  newRoles = newRoles.map(([name, slots]) => ({
+  newRoles = newRoles.map(([name, slots]) => (
+    // console.log(slots[0], slots[0].role_id) ||
+    {
     name, 
     slots,
     empty: slots.filter(s => !s.user_id).length,
@@ -185,6 +191,25 @@ export const classroomReducer = (state = initialState, action) => {
       ...state,
       creatingSlot: false,
       createSlotError: action.error,
+    };
+  case GET_MEMBERS_START:
+    return {
+      ...state,
+      gettingMembers: true,
+      getMembersError: null,
+    };
+  case GET_MEMBERS_SUCCESS:
+    return {
+      ...state,
+      gettingMembers: false,
+      members: action.payload,
+      getMembersError: null,
+    };
+  case GET_MEMBERS_FAILURE:
+    return {
+      ...state,
+      gettingMembers: false,
+      getMembersError: action.error,
     };
   default:
     return state;

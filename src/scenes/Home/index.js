@@ -44,7 +44,7 @@ const Home = (props) => {
           {props.memberProjects.map(project => (
             <div key={project.classroom_project_id}>
               <Link to={classroomUrl(project.classroom_id, project.classroom_name)}>
-                {project.project_name}
+                {project.project_name} - {project.role_name}
               </Link>
             </div>
           ))}

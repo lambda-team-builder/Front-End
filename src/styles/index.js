@@ -1,12 +1,14 @@
 import styled from 'styled-components';
+import { ReactComponent as SpinnerSVG } from './Spinner.svg';
 import { colors } from './theme.js';
 import { Card, AuthCard } from './Cards.js';
-import { Button } from './Buttons.js';
-import { ReactComponent as SpinnerSVG } from './Spinner.svg';
+import { Button, ButtonSmall, ButtonSmallSubtle  } from './Buttons.js';
+import { SubtleInput, SubtleTextarea } from './Input.js';
 
 export { colors };
 export { Card, AuthCard };
-export { Button };
+export { Button, ButtonSmall, ButtonSmallSubtle };
+export { SubtleInput, SubtleTextarea };
 
 export const CenteredDiv = styled.div`
   display: flex;

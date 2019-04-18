@@ -14,5 +14,6 @@ export const colors = {
   dusk: "#2A2E43",
   midnight: "#232530",
   black: "#000000",
-  sand: "#A39280"
+  sand: "#A39280",
+  love: "#9B1828",
 };

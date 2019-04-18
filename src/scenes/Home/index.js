@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { getClassrooms, createClassroom } from '../../services/classrooms/actions.js';
+import {
+  getClassrooms, createClassroom, getAdminClassrooms, getMemberProjects
+} from '../../services/classrooms/actions.js';
 import Error from '../../components/Error';
 import { Link } from 'react-router-dom';
 import slugify from 'slugify';
@@ -12,6 +14,8 @@ const Home = (props) => {
   // Initial data fetch
   useEffect(() => {
     props.getClassrooms();
+    props.getAdminClassrooms();
+    props.getMemberProjects();
   }, []);
   const [filter, setFilter] = useState("");
   const handleFilter = event => setFilter(event.target.value);
@@ -31,8 +35,20 @@ const Home = (props) => {
       <h1>Home</h1>
       <div>
         <button onClick={() => setModalTarget("createClassroom")}>Create Classroom</button>
-        
-        {/* TODO: classrooms member of, searchable all classrooms, createClassrooms  */}
+        <div>
+          {props.adminClassrooms.map(cr => (
+            <div key={cr.id}>
+              <Link to={classroomUrl(cr.id, cr.name)}>{cr.name}</Link>
+            </div>
+          ))}
+          {props.memberProjects.map(project => (
+            <div key={project.classroom_project_id}>
+              <Link to={classroomUrl(project.classroom_id, project.classroom_name)}>
+                {project.project_name}
+              </Link>
+            </div>
+          ))}
+        </div>
         <h2>Classrooms</h2>
         <Error error={props.classroomsError} />
         <div className={props.gettingClassrooms ? "loading" : ""}>
@@ -69,4 +85,6 @@ const mapStateToProps = ({classrooms}) => {
   return classrooms;
 };
 
-export default connect(mapStateToProps, { getClassrooms, createClassroom })(Home);
+export default connect(mapStateToProps, {
+  getClassrooms, createClassroom, getAdminClassrooms, getMemberProjects
+})(Home);

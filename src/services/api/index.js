@@ -34,6 +34,10 @@ export const getProjects = ({name, description}) => {
   return axiosWithAuth().get(`${API_URL}/projects/`, {name, description});
 };
 
+export const getMemberProjects = () => {
+  return axiosWithAuth().get(`${API_URL}/projects/mine`);
+};
+
 // project member slots
 export const addUserToMemberSlot = (member_slot_id, {classroom_member_id}) => {
   return axiosWithAuth().put(`${API_URL}/project_members/${member_slot_id}`, {classroom_member_id});

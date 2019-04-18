@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import {
   getClassroom, addProject, editClassroom, addUserToSlot, removeUserFromSlot, createSlot, getMembers,
-  createRole, deleteSlot,
+  createRole, deleteSlot, updateProject,
 } from '../../services/classroom/actions.js';
 import Modal from '../../components/Modal';
 
@@ -71,11 +71,20 @@ const Classroom = (props) => {
            case "editProject":
              const project = props.projects.find(({id}) => id === editId);
              return (
+               /* project && */
                <div style={{background: "white"}}>
-               <form>
+                 <form onSubmit={event => {
+                   event.preventDefault();
+                   const name = event.target.name.value;
+                   const description = event.target.description.value;
+                   props.updateProject(classroom_id, project.id, {
+                     name: name,
+                     description: description,
+                   });
+                 }}>
                  <input type="text" name="name" placeholder="name" defaultValue={project.name}/>
                  <textarea name="description" placeholder="description" defaultValue={project.description}/>
-                 <button type="submit" disabled>Submit Changes</button>
+                 <button type="submit">Submit Changes</button>
                </form>
                  <h2>Roles</h2>
                  {project.roles.map(({name, slots, id: role_id}) => (
@@ -156,5 +165,5 @@ const mapStateToProps = ({classroom}) => {
 
 export default connect(mapStateToProps, {
   getClassroom, addProject, editClassroom, addUserToSlot, removeUserFromSlot, createSlot,
-  getMembers, createRole, deleteSlot,
+  getMembers, createRole, deleteSlot, updateProject
 })(Classroom);

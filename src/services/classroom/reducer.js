@@ -2,6 +2,7 @@ import {
   GET_CLASSROOM_START, GET_CLASSROOM_SUCCESS, GET_CLASSROOM_FAILURE,
   ADD_PROJECT_START, ADD_PROJECT_SUCCESS, ADD_PROJECT_FAILURE,
   // GET_PROJECT_START, GET_PROJECT_SUCCESS, GET_PROJECT_FAILURE,
+  UPDATE_PROJECT_START, UPDATE_PROJECT_SUCCESS, UPDATE_PROJECT_FAILURE,
   EDIT_CLASSROOM_START, EDIT_CLASSROOM_SUCCESS, EDIT_CLASSROOM_FAILURE,
   CREATE_SLOT_START, CREATE_SLOT_SUCCESS, CREATE_SLOT_FAILURE,
   DELETE_SLOT_START, DELETE_SLOT_SUCCESS, DELETE_SLOT_FAILURE,
@@ -31,6 +32,8 @@ const initialState = {
   createRoleError: null,
   deletingSlot: false,
   deleteSlotError: null,
+  updatingProject: false,
+  updateProjectError: null,
 };
 
 const transformRoles = roles => {
@@ -260,6 +263,24 @@ export const classroomReducer = (state = initialState, action) => {
       ...state,
       gettingMembers: false,
       getMembersError: action.error,
+    };
+  case UPDATE_PROJECT_START:
+    return {
+      ...state,
+      updatingProject: true,
+      updateProjectError: null,
+    };
+  case UPDATE_PROJECT_SUCCESS:
+    return {
+      ...state,
+      updatingProject: false,
+      updateProjectError: null,
+    };
+  case UPDATE_PROJECT_FAILURE:
+    return {
+      ...state,
+      updatingProject: false,
+      updateProjectError: action.error,
     };
   default:
     return state;

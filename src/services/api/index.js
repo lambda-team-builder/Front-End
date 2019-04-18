@@ -30,6 +30,10 @@ export const createProject = ({name, description}) => {
   return axiosWithAuth().post(`${API_URL}/projects/`, {name, description});
 };
 
+export const updateProject = (project_id, {name, description}) => {
+  return axiosWithAuth().put(`${API_URL}/projects/${project_id}`, {name, description});
+};
+
 export const getProjects = ({name, description}) => {
   return axiosWithAuth().get(`${API_URL}/projects/`, {name, description});
 };

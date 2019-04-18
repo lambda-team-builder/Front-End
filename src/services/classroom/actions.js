@@ -40,6 +40,20 @@ export const addProject = (classroom_id, {name, description}) => dispatch => {
     .catch(error => dispatch({ type: ADD_PROJECT_FAILURE, error: error}));
 };
 
+export const UPDATE_PROJECT_START = 'UPDATE_PROJECT_START';
+export const UPDATE_PROJECT_SUCCESS = 'UPDATE_PROJECT_SUCCESS';
+export const UPDATE_PROJECT_FAILURE = 'UPDATE_PROJECT_FAILURE';
+
+export const updateProject = (classroom_id, project_id, {name, description}) => dispatch => {
+  dispatch({ type: UPDATE_PROJECT_START });
+  return api.updateProject(project_id, {name, description})
+    .then(res => {
+      dispatch({ type: UPDATE_PROJECT_SUCCESS });
+      return getClassroom(classroom_id)(dispatch);
+    })
+    .catch(error => dispatch({ type: UPDATE_PROJECT_FAILURE, error: error}));
+};
+
 // export const GET_PROJECT_START = 'GET_PROJECT_START';
 // export const GET_PROJECT_SUCCESS = 'GET_PROJECT_SUCCESS';
 // export const GET_PROJECT_FAILURE = 'GET_PROJECT_FAILURE';

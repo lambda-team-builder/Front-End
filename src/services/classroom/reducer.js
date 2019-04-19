@@ -8,6 +8,7 @@ import {
   DELETE_SLOT_START, DELETE_SLOT_SUCCESS, DELETE_SLOT_FAILURE,
   CREATE_ROLE_START, CREATE_ROLE_SUCCESS, CREATE_ROLE_FAILURE,
   JOIN_CLASSROOM_START, JOIN_CLASSROOM_SUCCESS, JOIN_CLASSROOM_FAILURE,
+  LEAVE_CLASSROOM_START, LEAVE_CLASSROOM_SUCCESS, LEAVE_CLASSROOM_FAILURE,
   JOIN_SLOT_START, JOIN_SLOT_SUCCESS, JOIN_SLOT_FAILURE,
   LEAVE_SLOT_START, LEAVE_SLOT_SUCCESS, LEAVE_SLOT_FAILURE,
   ADD_USER_TO_SLOT_START, ADD_USER_TO_SLOT_SUCCESS, ADD_USER_TO_SLOT_FAILURE,
@@ -44,6 +45,8 @@ const initialState = {
   joinSlotError: null,
   leavingSlot: false,
   leaveSlotError: null,
+  leavingClassroom: false,
+  leaveClassroomError: null,
 };
 
 const transformRoles = roles => {
@@ -315,6 +318,24 @@ export const classroomReducer = (state = initialState, action) => {
       ...state,
       joiningClassroom: false,
       joinClassroomError: action.error,
+    };
+  case LEAVE_CLASSROOM_START:
+    return {
+      ...state,
+      leavingClassroom: true,
+      leaveClassroomError: null,
+    };
+  case LEAVE_CLASSROOM_SUCCESS:
+    return {
+      ...state,
+      leavingClassroom: false,
+      leaveClassroomError: null,
+    };
+  case LEAVE_CLASSROOM_FAILURE:
+    return {
+      ...state,
+      leavingClassroom: false,
+      leaveClassroomError: action.error,
     };
   case JOIN_SLOT_START:
     return {

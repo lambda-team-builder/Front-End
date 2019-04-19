@@ -160,6 +160,17 @@ export const joinClassroom = (classroom_id, {password}) => dispatch => {
     .catch(error => dispatch({ type: JOIN_CLASSROOM_FAILURE, error: error}));
 };
 
+export const LEAVE_CLASSROOM_START = 'LEAVE_CLASSROOM_START';
+export const LEAVE_CLASSROOM_SUCCESS = 'LEAVE_CLASSROOM_SUCCESS';
+export const LEAVE_CLASSROOM_FAILURE = 'LEAVE_CLASSROOM_FAILURE';
+
+export const leaveClassroom = (classroom_id) => dispatch => {
+  dispatch({ type: LEAVE_CLASSROOM_START });
+  return api.leaveClassroom(classroom_id)
+    .then(res => (dispatch({ type: LEAVE_CLASSROOM_SUCCESS, payload: res.data })))
+    .catch(error => dispatch({ type: LEAVE_CLASSROOM_FAILURE, error: error}));
+};
+
 export const JOIN_SLOT_START = 'JOIN_SLOT_START';
 export const JOIN_SLOT_SUCCESS = 'JOIN_SLOT_SUCCESS';
 export const JOIN_SLOT_FAILURE = 'JOIN_SLOT_FAILURE';

@@ -27,7 +27,12 @@ const User = (props) => {
         </div>
         <h1>{props.name}</h1>
         <div style={{display: "flex", alignItems: "center"}}>
-          <ButtonSmallSubtle bg={colors.thunderhead}>
+          <ButtonSmallSubtle
+            onClick={() => {
+              props.leaveClassroom(classroom_id);
+              props.history.push("/home");
+            }}
+            bg={colors.thunderhead}>
             leave
           </ButtonSmallSubtle>
         </div>

@@ -34,7 +34,7 @@ const Landing = props => {
           >
             <p>
               Managing hundreds of student projects week in and week out for
-              Build weeks gets a bit daunting! Team Bilder helps with product
+              Build weeks gets a bit daunting! Team Builder helps with product
               ideation and project curation.
             </p>{" "}
             <br />

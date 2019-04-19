@@ -25,6 +25,7 @@ const Classroom = props => {
              && props.classroomError.response.status === 400){
     return (
       <Join classroom_id={classroom_id}
+            classroomError={props.classroomError}
             joinClassroomError={props.joinClassroomError}
             joinClassroom={props.joinClassroom}/>
     );

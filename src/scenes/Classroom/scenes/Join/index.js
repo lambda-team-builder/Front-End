@@ -2,7 +2,7 @@ import React from 'react';
 import { CenteredDiv, AuthCard, Button, BasicForm } from 'styles';
 import Error from 'components/Error';
 
-const Join = ({classroom_id, joinClassroom, joinClassroomError, ...props}) => {
+const Join = ({classroom_id, joinClassroom, classroomError, joinClassroomError, ...props}) => {
   return (
     <CenteredDiv>
       <AuthCard>
@@ -15,7 +15,8 @@ const Join = ({classroom_id, joinClassroom, joinClassroomError, ...props}) => {
              }}>
           <h1>Join Classroom</h1>
           <Error error={joinClassroomError}/>
-          {joinClassroomError && <input type="password" placeholder="password" name="password" />}
+          {classroomError && classroomError.response.data.is_password &&
+           <input type="password" placeholder="password" name="password" />}
           <Button type="submit">join</Button>
         </BasicForm>
       </AuthCard>

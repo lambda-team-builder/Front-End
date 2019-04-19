@@ -66,7 +66,7 @@ const RolesDiv = styled.div`
 const Role = styled.span.attrs(({bg, containsUser, ...props}) => ({
   ...props,
   bg: bg || "transparent",
-  containsUser: containsUser && colors.antimatter || "transparent",
+  containsUser: (containsUser && colors.antimatter) || "transparent",
 }))`
   background: ${props => props.bg};
   padding: 6px 10px;

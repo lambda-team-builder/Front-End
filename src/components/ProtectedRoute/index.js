@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import Login from '../../components/Loading';
 
 const ProtectedRoute = ({component: Component, ...props}) => {
     console.log("here");

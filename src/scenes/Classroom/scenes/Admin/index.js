@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Modal from 'components/Modal';
 import EditProject from './components/EditProject';
 import {
-  Button, BasicForm, BasicInput, Header, ButtonSmallSubtle, colors, Card, BasicTextarea
+  Button, BasicForm, BasicInput, Header, ButtonSmallSubtle, colors, BasicTextarea
 } from 'styles';
 import ButtonSpinner from 'components/ButtonSpinner';
 import ProjectCard from 'components/ProjectCard';
@@ -27,8 +27,6 @@ const Admin = (props) => {
       .then(({payload}) => payload && closeModal());
   };
   const [editId, setEditId] = useState(null);
-  const [addSlotId, setAddSlotId] = useState(null);
-  const [addingRole, setAddingRole] = useState(false);
   return (
     <div>
       <Header>

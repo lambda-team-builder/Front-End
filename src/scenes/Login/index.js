@@ -97,21 +97,6 @@ const StyledInput = styled.input`
   border-radius: 4px;
 `;
 
-const StyledButton = styled.button`
-  background-color: #b8d9f0; /* Green */
-  border: none;
-  width: 268px;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  border: solid 1px #48484841;
-  border-radius: 4px;
-  position: relative;
-`;
-
 const StyledH2 = styled.h2`
   font-size: 2rem;
   margin: 0;

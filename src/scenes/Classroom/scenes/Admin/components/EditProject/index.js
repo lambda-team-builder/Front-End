@@ -49,7 +49,8 @@ const EditProject = ({project, classroom_id, ...props}) => {
                     <DropdownSearch
                       key="unique"
                       placeholder="members"
-                      max={4}
+                      /* max={4} */
+                      height="150px"
                       close={() => setAddSlotId(null)}
                       values={props.members.map(m => m.user_name)}
                       onClick={idx =>
@@ -78,31 +79,46 @@ const EditProject = ({project, classroom_id, ...props}) => {
           </RoleDiv>
         ))}
       </RolesContainer>
-      <Button style={{maxWidth: "300px", margin: "0 auto"}}
-              bg={colors.eclipse}
-              onClick={() => setAddingRole(true)}>
-        add role
-      </Button>
-      {addingRole &&
-       <div>
-         {props.uniqueRoles.map(({name, id: role_id}) => (
-           <button key={role_id}
-                   onClick={() => (
-                     props.createSlot(classroom_id, project.id, {role_id})
-                       .then(() => setAddingRole(false)))}>
-             {name}
-           </button>))}
-         <form onSubmit={e => {
-           e.preventDefault();
-           e.target.role.value.trim() !== "" &&
-             props.createRole(classroom_id, project.id, {name: e.target.role.value})
-             .then(() => setAddingRole(false));
-         }}>
-           <input type="text" name="role" placeholder="new role"/>
-           <button type="submit">New Role</button>
-         </form>
-       </div>
+      {addingRole
+       ? <div>
+           <AddingRoleDiv>
+             <DropdownSearch
+               key="unique"
+               placeholder="existing roles"
+               height="150px"
+               values={props.uniqueRoles.map(r => r.name)}
+               onClick={idx =>
+                        props.createSlot(classroom_id, project.id, {
+                          role_id: props.uniqueRoles[idx].id
+                        }).then(() => setAddingRole(null))}
+             />
+             <form style={{display: "inline-block"}}
+                   onSubmit={e => {
+                     e.preventDefault();
+                     e.target.role.value.trim() !== "" &&
+                       props.createRole(classroom_id, project.id, {name: e.target.role.value})
+                       .then(() => setAddingRole(false));
+                   }}>
+               <input type="text" name="role" placeholder="new role"/>
+               <ButtonSmallSubtle type="submit">create</ButtonSmallSubtle>
+             </form>
+           </AddingRoleDiv>
+           <Button style={{maxWidth: "300px", margin: "0 auto"}}
+                   bg={colors.evening}
+                   onClick={() => setAddingRole(false)}>
+             cancel
+           </Button>
+         </div>
+       :
+       <Button style={{maxWidth: "300px", margin: "0 auto"}}
+                 bg={colors.eclipse}
+                 onClick={() => setAddingRole(true)}>
+           add role
+         </Button>
       }
+
+
+
     </div>
   );
 };
@@ -132,6 +148,14 @@ const RoleDiv = styled.div`
   max-width: 300px;
   width: 100%;
   padding-bottom: 20px;
+`;
+
+const AddingRoleDiv = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 20px;
 `;
 
 export default EditProject;

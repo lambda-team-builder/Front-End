@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Header, LandingButton, TopDiv, AuthCard } from "../../styles";
-import { colors } from "../../styles/theme";
-import { NONAME } from "dns";
 
 const Landing = props => {
   return (
@@ -21,7 +19,7 @@ const Landing = props => {
       </Header>
       <TopDiv>
         <AuthCard>
-          <p
+          <div
             style={{
               background: "#F4F4F655",
               color: "#555869",
@@ -47,7 +45,7 @@ const Landing = props => {
               roles to a product idea and let users sign up to a role they want
               to handle.
             </p>
-          </p>
+          </div>
           <LandingButton>
             <Link
               style={{ textDecoration: "none", color: "white" }}

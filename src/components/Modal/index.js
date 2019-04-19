@@ -1,8 +1,8 @@
-import React, { useRef } from 'react';
-import styled, { keyframes } from 'styled-components';
-import { colors } from 'styles';
+import React, { useRef } from "react";
+import styled, { keyframes } from "styled-components";
+import { colors } from "styles";
 
-const Modal = ({handleClose, children, width, ...props}) => {
+const Modal = ({ handleClose, children, width, ...props }) => {
   const modalRef = useRef();
   const handleClick = event => {
     event.target === modalRef.current && handleClose();
@@ -11,9 +11,7 @@ const Modal = ({handleClose, children, width, ...props}) => {
     <BackgroundDiv onClick={handleClick} ref={modalRef}>
       <ModalDiv width={width}>
         <Close onClick={handleClose}>&times;</Close>
-        <ModalContent>
-          {children}
-        </ModalContent>
+        <ModalContent>{children}</ModalContent>
       </ModalDiv>
     </BackgroundDiv>
   );
@@ -47,7 +45,7 @@ const ModalDiv = styled.div`
   margin: auto;
   position: relative;
   background: ${colors.turbulence};
-  width: ${props => props.width || "auto"}
+  width: ${props => props.width || "auto"};
   display: flex;
   flex-direction: column;
   align-items: center;

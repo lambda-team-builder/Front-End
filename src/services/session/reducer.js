@@ -87,6 +87,8 @@ export const sessionReducer = (state = initialState, action) => {
       refreshing: false,
       refreshError: action.error,
     };
+  case "RESET":
+    return initialState;
   default:
     return state;
   }

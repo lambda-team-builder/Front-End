@@ -100,6 +100,8 @@ export const classroomsReducer = (state = initialState, action) => {
       gettingMemberProjects: false,
       getMemberProjectsError: action.error,
     };
+  case "RESET":
+    return initialState;
   default:
     return state;
   }

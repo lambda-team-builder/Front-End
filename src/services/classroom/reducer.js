@@ -352,6 +352,8 @@ export const classroomReducer = (state = initialState, action) => {
       leavingSlot: false,
       leaveSlotError: action.error,
     };
+  case "RESET":
+    return initialState;
   default:
     return state;
   }

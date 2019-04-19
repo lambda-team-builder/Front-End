@@ -6,6 +6,7 @@ import {
   getAdminClassrooms,
   getMemberProjects
 } from "../../services/classrooms/actions.js";
+import { logout } from '../../services/session/actions.js';
 import Error from "../../components/Error";
 import { Link } from "react-router-dom";
 import slugify from "slugify";
@@ -44,7 +45,7 @@ const Home = props => {
   const closeModal = () => setModalTarget(null);
   return (
     <StyledDiv>
-      <StyledH1>Home</StyledH1>
+      <StyledH1>Home <button onClick={() => props.logout(props.history)}>logout</button></StyledH1>
       <StyledDiv2>
         <StyledH2>Classrooms</StyledH2>
         <div className="header">
@@ -121,7 +122,8 @@ export default connect(
     getClassrooms,
     createClassroom,
     getAdminClassrooms,
-    getMemberProjects
+    getMemberProjects,
+    logout
   }
 )(Home);
 

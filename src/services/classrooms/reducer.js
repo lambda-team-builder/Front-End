@@ -2,6 +2,7 @@ import {
   GET_CLASSROOMS_START, GET_CLASSROOMS_SUCCESS, GET_CLASSROOMS_FAILURE,
   CREATE_CLASSROOM_START, CREATE_CLASSROOM_SUCCESS, CREATE_CLASSROOM_FAILURE,
   GET_ADMIN_CLASSROOMS_START, GET_ADMIN_CLASSROOMS_SUCCESS, GET_ADMIN_CLASSROOMS_FAILURE,
+  GET_USER_CLASSROOMS_START, GET_USER_CLASSROOMS_SUCCESS, GET_USER_CLASSROOMS_FAILURE,
   GET_MEMBER_PROJECTS_START, GET_MEMBER_PROJECTS_SUCCESS, GET_MEMBER_PROJECTS_FAILURE,
 } from './actions.js';
 
@@ -15,6 +16,9 @@ const initialState = {
   gettingAdminClassrooms: false,
   adminClassrooms: [],
   getAdminClassroomsError: null,
+  gettingUserClassrooms: false,
+  userClassrooms: [],
+  getUserClassroomsError: null,
   gettingMemberProjects: false,
   memberProjects: [],
   getMemberProjectsError: null,
@@ -81,6 +85,25 @@ export const classroomsReducer = (state = initialState, action) => {
       gettingAdminClassrooms: false,
       getAdminClassroomsError: action.error,
     };
+  case GET_USER_CLASSROOMS_START:
+    return {
+      ...state,
+      gettingUserClassrooms: true,
+      getUserClassroomsError: null,
+    };
+  case GET_USER_CLASSROOMS_SUCCESS:
+    return {
+      ...state,
+      gettingUserClassrooms: false,
+      userClassrooms: action.payload,
+      getUserClassroomsError: null,
+    };
+  case GET_USER_CLASSROOMS_FAILURE:
+    return {
+      ...state,
+      gettingUserClassrooms: false,
+      getUserClassroomsError: action.error,
+    };
   case GET_MEMBER_PROJECTS_START:
     return {
       ...state,
@@ -100,6 +123,8 @@ export const classroomsReducer = (state = initialState, action) => {
       gettingMemberProjects: false,
       getMemberProjectsError: action.error,
     };
+  case "RESET":
+    return initialState;
   default:
     return state;
   }

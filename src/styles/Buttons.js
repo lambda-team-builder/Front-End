@@ -1,28 +1,8 @@
 import styled from 'styled-components';
 import { colors } from './theme.js';
 
-// export const Button = styled.button`
-//   background-color: #b8d9f0; /* Green */
-//   border: none;
-//   width: 268px;
-//   color: white;
-//   padding: 15px 32px;
-//   text-align: center;
-//   text-decoration: none;
-//   display: inline-block;
-//   font-size: 16px;
-//   border: solid 1px #48484841;
-//   border-radius: 4px;
-//   position: relative;
-//   // &.loading::after {
-//   //   content: url(/load.svg);
-//   //   position: absolute;
-//   //   right: 0;
-//   //   height: 10%;
-//   // }
-// `;
-
-export const Button = styled.div.attrs(({bg, fg, shadow}) => ({
+export const Button = styled.button.attrs(({bg, fg, shadow, ...props}) => ({
+  ...props,
   bg: bg || colors.forest,
   fg: fg || colors.white,
   shadow: shadow || colors.dusk,
@@ -31,6 +11,8 @@ export const Button = styled.div.attrs(({bg, fg, shadow}) => ({
   color: ${props => props.fg};
   border: none;
   padding: 15px 32px;
+  margin: 0 auto;
+  display: block;
   text-align: center;
   text-decoration: none;
   font-weight: bold;
@@ -48,6 +30,7 @@ export const ButtonSmall = styled(Button)`
   padding: 6px 10px;
   font-size: 1.0rem;
   display: inline-block;
+  margin: 0;
 `;
 
 export const ButtonSmallSubtle = styled(ButtonSmall)`

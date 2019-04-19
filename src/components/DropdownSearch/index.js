@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { colors } from 'styles';
 
-const DropdownSearch = ({placeholder, values, onClick, max, close}) => {
+const DropdownSearch = ({placeholder, values, onClick, max, close, height}) => {
   const [filter, setFilter] = useState("");
   return (
-    <Container>
+    <Container resultsHeight={height}>
       {close && <button onClick={close}>&times;</button>}
       <input onChange={e => setFilter(e.target.value)}
              type="text"
@@ -51,6 +51,8 @@ const Container = styled.div`
     cursor: pointer;
     border: 1px solid lightgrey;
     box-sizing: border-box;
+    max-height: ${props => props.resultsHeight || "auto"};
+    overflow-y: auto;
     div {
       background: ${colors.white};
       border: 1px solid ${colors.turbulence};

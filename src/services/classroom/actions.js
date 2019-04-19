@@ -145,3 +145,56 @@ export const createRole = (classroom_id, classroom_project_id, {name}) => dispat
     })
     .catch(error => dispatch({ type: CREATE_ROLE_FAILURE, error: error}));
 };
+
+export const JOIN_CLASSROOM_START = 'JOIN_CLASSROOM_START';
+export const JOIN_CLASSROOM_SUCCESS = 'JOIN_CLASSROOM_SUCCESS';
+export const JOIN_CLASSROOM_FAILURE = 'JOIN_CLASSROOM_FAILURE';
+
+export const joinClassroom = (classroom_id, {password}) => dispatch => {
+  dispatch({ type: JOIN_CLASSROOM_START });
+  return api.joinClassroom(classroom_id, {password: password || null})
+    .then(res => {
+      return getClassroom(classroom_id)(dispatch)
+        .then(() => dispatch({ type: JOIN_CLASSROOM_SUCCESS, payload: res.data }));
+    })
+    .catch(error => dispatch({ type: JOIN_CLASSROOM_FAILURE, error: error}));
+};
+
+export const LEAVE_CLASSROOM_START = 'LEAVE_CLASSROOM_START';
+export const LEAVE_CLASSROOM_SUCCESS = 'LEAVE_CLASSROOM_SUCCESS';
+export const LEAVE_CLASSROOM_FAILURE = 'LEAVE_CLASSROOM_FAILURE';
+
+export const leaveClassroom = (classroom_id) => dispatch => {
+  dispatch({ type: LEAVE_CLASSROOM_START });
+  return api.leaveClassroom(classroom_id)
+    .then(res => (dispatch({ type: LEAVE_CLASSROOM_SUCCESS, payload: res.data })))
+    .catch(error => dispatch({ type: LEAVE_CLASSROOM_FAILURE, error: error}));
+};
+
+export const JOIN_SLOT_START = 'JOIN_SLOT_START';
+export const JOIN_SLOT_SUCCESS = 'JOIN_SLOT_SUCCESS';
+export const JOIN_SLOT_FAILURE = 'JOIN_SLOT_FAILURE';
+
+export const joinSlot = (classroom_id, member_slot_id) => dispatch => {
+  dispatch({ type: JOIN_SLOT_START });
+  return api.joinMemberSlot(member_slot_id)
+    .then(res => {
+      return getClassroom(classroom_id)(dispatch)
+        .then(() => dispatch({ type: JOIN_SLOT_SUCCESS, payload: res.data }));
+    })
+    .catch(error => dispatch({ type: JOIN_SLOT_FAILURE, error: error}));
+};
+
+export const LEAVE_SLOT_START = 'LEAVE_SLOT_START';
+export const LEAVE_SLOT_SUCCESS = 'LEAVE_SLOT_SUCCESS';
+export const LEAVE_SLOT_FAILURE = 'LEAVE_SLOT_FAILURE';
+
+export const leaveSlot = (classroom_id, member_slot_id) => dispatch => {
+  dispatch({ type: LEAVE_SLOT_START });
+  return api.leaveMemberSlot(member_slot_id)
+    .then(res => {
+      return getClassroom(classroom_id)(dispatch)
+        .then(() => dispatch({ type: LEAVE_SLOT_SUCCESS, payload: res.data }));
+    })
+    .catch(error => dispatch({ type: LEAVE_SLOT_FAILURE, error: error}));
+};

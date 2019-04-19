@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'components/Modal';
 import EditProject from './components/EditProject';
+import {
+  Button, BasicForm, BasicInput, Header, ButtonSmallSubtle, colors, BasicTextarea
+} from 'styles';
+import ButtonSpinner from 'components/ButtonSpinner';
+import ProjectCard from 'components/ProjectCard';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const Admin = (props) => {
   const classroom_id = props.match.params.classroom_id;
@@ -10,7 +17,8 @@ const Admin = (props) => {
   const handleAddProject = event => {
     event.preventDefault();
     props.addProject(classroom_id, {name: event.target.name.value,
-                                    description: event.target.description.value});
+                                    description: event.target.description.value})
+      .then(() => setModalTarget(null));
   };
   const [modalTarget, setModalTarget] = useState(null);
   const closeModal = () => setModalTarget(null);
@@ -20,53 +28,67 @@ const Admin = (props) => {
       .then(({payload}) => payload && closeModal());
   };
   const [editId, setEditId] = useState(null);
-  const [addSlotId, setAddSlotId] = useState(null);
-  const [addingRole, setAddingRole] = useState(false);
   return (
     <div>
-      <h1>{props.name}</h1>
-      <button onClick={() => setModalTarget("editClassroom")}>Edit Name</button>
-      <form onSubmit={handleAddProject}>
-        <input type="text" name="name" placeholder="name"/>
-        <input type="text" name="description" placeholder="description"/>
-        <button type="submit">Add Project</button>
-      </form>
-      <div>
-        {props.projects.map(proj => (
-          <div key={proj.id}>
-            <span>{proj.name}</span>
-            <span> Description: {proj.description.substring(0, 20)}...</span>
-            <span>
-              {proj.roles.map(({name, slots, empty, id}) => (
-                <div key={id}>
-                  {name + " (" + empty + "): "}
-                  <span>
-                    {slots.map(slot => <span key={slot.id}>{slot.user_name || "empty"}</span>)}
-                    {" "}
-                  </span>
-                </div>
-              ))}
-            </span>
-            <button onClick={() => {setModalTarget("editProject"); setEditId(proj.id);}}>
-              Edit Project</button>
-          </div>
+      <Header>
+        <div style={{display: "flex", alignItems: "center"}}>
+          <Link to="/home">
+            <ButtonSmallSubtle>
+              home
+            </ButtonSmallSubtle>
+          </Link>
+        </div>
+        <h1>
+          {props.name}
+          <ButtonSmallSubtle onClick={() => setModalTarget("editClassroom")}>
+            edit
+          </ButtonSmallSubtle>
+        </h1>
+        <div style={{display: "flex", alignItems: "center"}}>
+          <ButtonSmallSubtle bg={colors.thunderhead}
+                             style={{margin: "0"}} >
+            settings
+          </ButtonSmallSubtle>
+        </div>
+      </Header>
+      <Button onClick={() => setModalTarget("addProject")}>Add Project</Button>
+      <CardsContainer>
+        {props.projects.map(project => (
+          <ProjectCard key={project.id}
+                       project={project}
+                       onClick={() => {setModalTarget("editProject"); setEditId(project.id);}}/>
         ))}
-      </div>
+      </CardsContainer>
       {modalTarget &&
        <Modal handleClose={closeModal} width="800px">
          {(() => {
            switch (modalTarget) {
            case "editClassroom":
              return (
-               <form onSubmit={handleEditClassroom}>
-                 <input type="text" name="name" palceholder="name"/>
-                 <button type="submit">Edit Classroom</button>
-               </form>
+               <BasicForm onSubmit={handleEditClassroom}>
+                 <h2>Edit Classroom Name</h2>
+                 <BasicInput type="text" name="name" palceholder="name" defaultValue={props.name}/>
+                 <ButtonSpinner type="submit"
+                                loading={props.editingClassroom}>
+                   edit
+                 </ButtonSpinner>
+               </BasicForm>
              );
            case "editProject":
              const project = props.projects.find(({id}) => id === editId);
              return (
                <EditProject {...{project, classroom_id, }} {...props} />
+             );
+           case "addProject":
+             return (
+               <BasicForm onSubmit={handleAddProject}>
+                 <h2>Add Project</h2>
+                 <BasicInput type="text" name="name" placeholder="name"/>
+                 <BasicTextarea type="text" name="description" placeholder="description"/>
+                 <ButtonSpinner type="submit" loading={props.addingProject}>
+                   add
+                 </ButtonSpinner>
+               </BasicForm>
              );
            default:
              return null;
@@ -76,5 +98,11 @@ const Admin = (props) => {
     </div>
   );
 };
+
+const CardsContainer = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+`;
 
 export default Admin;

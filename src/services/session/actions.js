@@ -20,6 +20,7 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
 
 export const login = ({ email, password }) => dispatch => {
+  logout();
   dispatch({ type: LOGIN_START });
   return api
     .login({ email, password })
@@ -28,4 +29,28 @@ export const login = ({ email, password }) => dispatch => {
       dispatch({ type: LOGIN_SUCCESS, payload: res.data });
     })
     .catch(error => dispatch({ type: LOGIN_FAILURE, error: error }));
+};
+
+export const logout = (history) => dispatch => {
+  localStorage.removeItem("userToken");
+  history.push("/login");
+  dispatch({ type: "RESET" });
+};
+
+export const REFRESH_START = "REFRESH_START";
+export const REFRESH_SUCCESS = "REFRESH_SUCCESS";
+export const REFRESH_FAILURE = "REFRESH_FAILURE";
+
+export const refresh = () => dispatch => {
+  dispatch({ type: REFRESH_START });
+  return api
+    .refreshJWT()
+    .then(res => {
+      localStorage.setItem("userToken", res.data.token);
+      dispatch({ type: REFRESH_SUCCESS, payload: res.data });
+    })
+    .catch(error => {
+      localStorage.removeItem("userToken");
+      return dispatch({ type: REFRESH_FAILURE, error: error });
+    });
 };

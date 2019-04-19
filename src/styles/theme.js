@@ -16,4 +16,7 @@ export const colors = {
   black: "#000000",
   sand: "#A39280",
   love: "#9B1828",
+  sun: "#ECD078",
+  brick: "#D95B43",
+  pine: "#53777A"
 };

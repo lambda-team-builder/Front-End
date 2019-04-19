@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import { register } from "../../services/session/actions";
 import styled from "styled-components";
 import Error from '../../components/Error';
-import { AuthCard, CenteredDiv, Button, Spinner } from '../../styles';
+import { AuthCard, CenteredDiv, Button, Spinner, ButtonSmallSubtle, colors } from '../../styles';
+import { Link } from 'react-router-dom';
 
 class Register extends Component {
   constructor(props) {
@@ -57,10 +58,15 @@ class Register extends Component {
               onChange={this.handleChanges}
             />
             <br />
-            <Button onClick={this.handleRegister}>
+            <Button onClick={this.handleRegister} type="submit">
               Register
               {this.props.registering && <Spinner />}
             </Button>
+            <Link to="/login">
+              <ButtonSmallSubtle bg={colors.thunderhead}>
+                login
+              </ButtonSmallSubtle>
+            </Link>
           </StyledForm>
         </AuthCard>
       </CenteredDiv>

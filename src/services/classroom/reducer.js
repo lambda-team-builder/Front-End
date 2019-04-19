@@ -7,12 +7,17 @@ import {
   CREATE_SLOT_START, CREATE_SLOT_SUCCESS, CREATE_SLOT_FAILURE,
   DELETE_SLOT_START, DELETE_SLOT_SUCCESS, DELETE_SLOT_FAILURE,
   CREATE_ROLE_START, CREATE_ROLE_SUCCESS, CREATE_ROLE_FAILURE,
+  JOIN_CLASSROOM_START, JOIN_CLASSROOM_SUCCESS, JOIN_CLASSROOM_FAILURE,
+  LEAVE_CLASSROOM_START, LEAVE_CLASSROOM_SUCCESS, LEAVE_CLASSROOM_FAILURE,
+  JOIN_SLOT_START, JOIN_SLOT_SUCCESS, JOIN_SLOT_FAILURE,
+  LEAVE_SLOT_START, LEAVE_SLOT_SUCCESS, LEAVE_SLOT_FAILURE,
   ADD_USER_TO_SLOT_START, ADD_USER_TO_SLOT_SUCCESS, ADD_USER_TO_SLOT_FAILURE,
   GET_MEMBERS_START, GET_MEMBERS_SUCCESS, GET_MEMBERS_FAILURE,
 } from './actions.js';
 
 const initialState = {
   id: null,
+  is_admin: null,
   name: " ",
   projects: [],
   gettingClassroom: false,
@@ -34,6 +39,14 @@ const initialState = {
   deleteSlotError: null,
   updatingProject: false,
   updateProjectError: null,
+  joiningClassroom: false,
+  joinClassroomError: null,
+  joiningSlot: false,
+  joinSlotError: null,
+  leavingSlot: false,
+  leaveSlotError: null,
+  leavingClassroom: false,
+  leaveClassroomError: null,
 };
 
 const transformRoles = roles => {
@@ -67,9 +80,10 @@ export const classroomReducer = (state = initialState, action) => {
     console.log(state.id, action.classroom_id);
     var payload = (state.id !== action.classroom_id
                    ? {projects: [],
-                     id: null,
-                     name: " ",
-                     members: []}
+                      id: null,
+                      name: " ",
+                      is_admin: null,
+                      members: []}
                    : {});
     return {
       ...state,
@@ -287,6 +301,81 @@ export const classroomReducer = (state = initialState, action) => {
       updatingProject: false,
       updateProjectError: action.error,
     };
+  case JOIN_CLASSROOM_START:
+    return {
+      ...state,
+      joiningClassroom: true,
+      joinClassroomError: null,
+    };
+  case JOIN_CLASSROOM_SUCCESS:
+    return {
+      ...state,
+      joiningClassroom: false,
+      joinClassroomError: null,
+    };
+  case JOIN_CLASSROOM_FAILURE:
+    return {
+      ...state,
+      joiningClassroom: false,
+      joinClassroomError: action.error,
+    };
+  case LEAVE_CLASSROOM_START:
+    return {
+      ...state,
+      leavingClassroom: true,
+      leaveClassroomError: null,
+    };
+  case LEAVE_CLASSROOM_SUCCESS:
+    return {
+      ...state,
+      id: null,
+      leavingClassroom: false,
+      leaveClassroomError: null,
+    };
+  case LEAVE_CLASSROOM_FAILURE:
+    return {
+      ...state,
+      leavingClassroom: false,
+      leaveClassroomError: action.error,
+    };
+  case JOIN_SLOT_START:
+    return {
+      ...state,
+      joiningSlot: true,
+      joinSlotError: null,
+    };
+  case JOIN_SLOT_SUCCESS:
+    return {
+      ...state,
+      joiningSlot: false,
+      joinSlotError: null,
+    };
+  case JOIN_SLOT_FAILURE:
+    return {
+      ...state,
+      joiningSlot: false,
+      joinSlotError: action.error,
+    };
+  case LEAVE_SLOT_START:
+    return {
+      ...state,
+      leavingSlot: true,
+      leaveSlotError: null,
+    };
+  case LEAVE_SLOT_SUCCESS:
+    return {
+      ...state,
+      leavingSlot: false,
+      leaveSlotError: null,
+    };
+  case LEAVE_SLOT_FAILURE:
+    return {
+      ...state,
+      leavingSlot: false,
+      leaveSlotError: action.error,
+    };
+  case "RESET":
+    return initialState;
   default:
     return state;
   }

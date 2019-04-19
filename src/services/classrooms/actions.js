@@ -17,9 +17,20 @@ export const GET_ADMIN_CLASSROOMS_FAILURE = 'GET_ADMIN_CLASSROOMS_FAILURE';
 
 export const getAdminClassrooms = () => dispatch => {
   dispatch({ type: GET_ADMIN_CLASSROOMS_START });
-  return api.getClassrooms()
+  return api.getAdminClassrooms()
     .then(res => dispatch({ type: GET_ADMIN_CLASSROOMS_SUCCESS, payload: res.data }))
     .catch(error => dispatch({ type: GET_ADMIN_CLASSROOMS_FAILURE, error: error }));
+};
+
+export const GET_USER_CLASSROOMS_START = 'GET_USER_CLASSROOMS_START';
+export const GET_USER_CLASSROOMS_SUCCESS = 'GET_USER_CLASSROOMS_SUCCESS';
+export const GET_USER_CLASSROOMS_FAILURE = 'GET_USER_CLASSROOMS_FAILURE';
+
+export const getUserClassrooms = () => dispatch => {
+  dispatch({ type: GET_USER_CLASSROOMS_START });
+  return api.getUserClassrooms()
+    .then(res => dispatch({ type: GET_USER_CLASSROOMS_SUCCESS, payload: res.data }))
+    .catch(error => dispatch({ type: GET_USER_CLASSROOMS_FAILURE, error: error }));
 };
 
 export const GET_MEMBER_PROJECTS_START = 'GET_MEMBER_PROJECTS_START';

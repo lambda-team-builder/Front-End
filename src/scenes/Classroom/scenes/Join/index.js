@@ -1,18 +1,23 @@
 import React from 'react';
-import { CenteredDiv, AuthCard, Button } from 'styles';
+import { CenteredDiv, AuthCard, Button, BasicForm } from 'styles';
+import Error from 'components/Error';
 
-const Join = ({classroom_id, joinClassroom, ...props}) => {
+const Join = ({classroom_id, joinClassroom, joinClassroomError, ...props}) => {
   return (
     <CenteredDiv>
       <AuthCard>
-        <form onSubmit={e => {
+        <BasicForm onSubmit={e => {
                e.preventDefault();
-               joinClassroom(classroom_id, {password: e.target.password.value === "" ? null : e.target.password.value});
+          const password = (e.target.password
+                            && e.target.password.value !== ""
+                            && e.target.password.value) || "   ";
+               joinClassroom(classroom_id, {password: password});
              }}>
           <h1>Join Classroom</h1>
-          <input type="password" placeholder="password" name="password" />
-          <Button type="submit">Join</Button>
-        </form>
+          <Error error={joinClassroomError}/>
+          {joinClassroomError && <input type="password" placeholder="password" name="password" />}
+          <Button type="submit">join</Button>
+        </BasicForm>
       </AuthCard>
     </CenteredDiv>
   );

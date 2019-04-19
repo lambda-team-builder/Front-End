@@ -23,4 +23,6 @@ export const AuthCard = styled(Card)`
   width: 100%;
   max-width: 400px;
   height: 400px;
+  display: flex;
+  justify-content: center;
 `;

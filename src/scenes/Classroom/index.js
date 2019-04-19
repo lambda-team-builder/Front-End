@@ -8,27 +8,29 @@ import Modal from 'components/Modal';
 import Admin from './scenes/Admin';
 import Join from './scenes/Join';
 import User from './scenes/User';
+import Loading from './scenes/Loading';
 
 const Classroom = props => {
   const classroom_id = props.match.params.classroom_id;
   useEffect(() => {
     props.getClassroom(classroom_id);
   }, [classroom_id]);
-  const admin = props.is_admin;
-  if (props.id || props.id === 0) {
-    if (admin === true) {
+  if (props.id || props.id === 0 && !props.gettingClassroom) {
+    if (props.is_admin === true) {
       return <Admin {...props} />;
-    } else if (admin === false) {
+    } else if (props.is_admin === false) {
       return <User {...props} />;
     }
   } else if (props.classroomError
              && props.classroomError.response
              && props.classroomError.response.status === 400){
     return (
-      <Join classroom_id={classroom_id} joinClassroom={props.joinClassroom}/>
+      <Join classroom_id={classroom_id}
+            joinClassroomError={props.joinClassroomError}
+            joinClassroom={props.joinClassroom}/>
     );
   } 
-  return <div>Loading</div>;
+  return <Loading/>;
 };
 
 const mapStateToProps = ({ classroom, session }) => {

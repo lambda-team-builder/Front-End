@@ -17,7 +17,8 @@ const Admin = (props) => {
   const handleAddProject = event => {
     event.preventDefault();
     props.addProject(classroom_id, {name: event.target.name.value,
-                                    description: event.target.description.value});
+                                    description: event.target.description.value})
+      .then(() => setModalTarget(null));
   };
   const [modalTarget, setModalTarget] = useState(null);
   const closeModal = () => setModalTarget(null);
@@ -84,7 +85,9 @@ const Admin = (props) => {
                  <h2>Add Project</h2>
                  <BasicInput type="text" name="name" placeholder="name"/>
                  <BasicTextarea type="text" name="description" placeholder="description"/>
-                 <Button type="submit">Add Project</Button>
+                 <ButtonSpinner type="submit" loading={props.addingProject}>
+                   add
+                 </ButtonSpinner>
                </BasicForm>
              );
            default:

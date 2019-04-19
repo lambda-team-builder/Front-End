@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import { login } from "../../services/session/actions";
 import styled from "styled-components";
 import Error from '../../components/Error';
-import { AuthCard, CenteredDiv, Button, Spinner } from '../../styles';
+import { AuthCard, CenteredDiv, Button, Spinner, ButtonSmallSubtle, colors } from '../../styles';
+import { Link } from 'react-router-dom';
 
 class Login extends Component {
   constructor(props) {
@@ -48,10 +49,15 @@ class Login extends Component {
               onChange={this.handleChanges}
             />{" "}
             <br />
-            <Button onClick={this.handleLogin}>
+            <Button onClick={this.handleLogin} type="submit">
               Log In
               {this.props.authenticating && <Spinner />}
             </Button>
+            <Link to="/register">
+              <ButtonSmallSubtle bg={colors.thunderhead}>
+                register
+              </ButtonSmallSubtle>
+            </Link>
           </StyledForm>
         </AuthCard>
       </CenteredDiv>

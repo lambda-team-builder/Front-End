@@ -328,6 +328,7 @@ export const classroomReducer = (state = initialState, action) => {
   case LEAVE_CLASSROOM_SUCCESS:
     return {
       ...state,
+      id: null,
       leavingClassroom: false,
       leaveClassroomError: null,
     };

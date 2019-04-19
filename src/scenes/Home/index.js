@@ -95,11 +95,11 @@ const Home = props => {
             <div>
               <StyledH2>User Classrooms</StyledH2>
               <ClassroomContainer>
-                {props.userClassrooms.map(cr => (
-                  <LinkNoDec key={cr.id} to={classroomUrl(cr.id, cr.name)}>
+                {props.userClassrooms.map(({classroom_id, classroom_name}) => (
+                  <LinkNoDec key={classroom_id} to={classroomUrl(classroom_id, classroom_name)}>
                     <ClassroomCard>
                       <ClassroomName>
-                        {cr.name}
+                        {classroom_name}
                       </ClassroomName>
                     </ClassroomCard>
                   </LinkNoDec>

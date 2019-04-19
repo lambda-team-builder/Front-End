@@ -89,6 +89,10 @@ export const joinClassroom = (id, {password}) => {
   return axiosWithAuth().put(`${API_URL}/classrooms/${id}/join`, {password: password || null});
 };
 
+export const leaveClassroom = (id) => {
+  return axiosWithAuth().put(`${API_URL}/classrooms/${id}/leave`);
+};
+
 export const editClassroom = (id, {name}) => {
   return axiosWithAuth().put(`${API_URL}/classrooms/${id}`, {name});
 };
@@ -103,6 +107,10 @@ export const getClassrooms = () => {
 
 export const getUserClassrooms = () => {
   return axiosWithAuth().get(`${API_URL}/classroom_members/mine`);
+};
+
+export const getAdminClassrooms = () => {
+  return axiosWithAuth().get(`${API_URL}/classroom_admins/`);
 };
 
 export const getClassroomMembers = (id) => {

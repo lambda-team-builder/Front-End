@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import {
   getClassroom, addProject, editClassroom, addUserToSlot, removeUserFromSlot, createSlot, getMembers,
-  createRole, deleteSlot, updateProject, joinClassroom, joinSlot, leaveSlot,
+  createRole, deleteSlot, updateProject, joinClassroom, joinSlot, leaveSlot, leaveClassroom,
 } from '../../services/classroom/actions.js';
 import Admin from './scenes/Admin';
 import Join from './scenes/Join';
@@ -43,4 +43,5 @@ const mapStateToProps = ({ classroom, session }) => {
 export default connect(mapStateToProps, {
   getClassroom, addProject, editClassroom, addUserToSlot, removeUserFromSlot, createSlot,
   getMembers, createRole, deleteSlot, updateProject, joinClassroom, joinSlot, leaveSlot,
+  leaveClassroom,
 })(Classroom);

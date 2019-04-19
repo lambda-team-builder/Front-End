@@ -6,6 +6,7 @@ import {
 } from 'styles';
 import ButtonSpinner from 'components/ButtonSpinner';
 import ProjectCard from 'components/ProjectCard';
+import styled from 'styled-components';
 
 const Admin = (props) => {
   const classroom_id = props.match.params.classroom_id;
@@ -44,13 +45,13 @@ const Admin = (props) => {
         </div>
       </Header>
       <Button onClick={() => setModalTarget("addProject")}>Add Project</Button>
-      <div style={{display: "flex", flexFlow: "row wrap", justifyContent: "flex-start"}}>
+      <CardsContainer>
         {props.projects.map(project => (
           <ProjectCard key={project.id}
                        project={project}
                        onClick={() => {setModalTarget("editProject"); setEditId(project.id);}}/>
         ))}
-      </div>
+      </CardsContainer>
       {modalTarget &&
        <Modal handleClose={closeModal} width="800px">
          {(() => {
@@ -88,5 +89,11 @@ const Admin = (props) => {
     </div>
   );
 };
+
+const CardsContainer = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+`;
 
 export default Admin;

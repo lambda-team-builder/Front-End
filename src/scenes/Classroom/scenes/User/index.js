@@ -24,14 +24,15 @@ const User = (props) => {
           </ButtonSmallSubtle>
         </div>
       </Header>
-      <div style={{display: "flex", flexFlow: "row wrap", justifyContent: "flex-start"}}>
+      <CardsContainer>
         {props.projects.map(project => (
           <ProjectCard key={project.id}
                        project={project}
                        user_id={props.user_id}
                        onClick={() => {setModalTarget("viewProject"); setViewId(project.id);}}/>
         ))}
-      </div>{modalTarget &&
+      </CardsContainer>
+      {modalTarget &&
        <Modal handleClose={closeModal} width="800px">
          {(() => {
            switch (modalTarget) {
@@ -103,6 +104,12 @@ const RoleDiv = styled.div`
   max-width: 300px;
   width: 100%;
   padding-bottom: 20px;
+`;
+
+const CardsContainer = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
 `;
 
 export default User;

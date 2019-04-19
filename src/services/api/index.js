@@ -101,6 +101,10 @@ export const getClassrooms = () => {
   return axiosWithAuth().get(`${API_URL}/classrooms/`);
 };
 
+export const getUserClassrooms = () => {
+  return axiosWithAuth().get(`${API_URL}/classroom_members/mine`);
+};
+
 export const getClassroomMembers = (id) => {
   return axiosWithAuth().get(`${API_URL}/classrooms/${id}/members`);
 };

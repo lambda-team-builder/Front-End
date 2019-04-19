@@ -1,28 +1,36 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { colors } from 'styles';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { colors } from "styles";
 
-const DropdownSearch = ({placeholder, values, onClick, max, close, height}) => {
+const DropdownSearch = ({
+  placeholder,
+  values,
+  onClick,
+  max,
+  close,
+  height
+}) => {
   const [filter, setFilter] = useState("");
   return (
     <Container resultsHeight={height}>
       {close && <button onClick={close}>&times;</button>}
-      <input onChange={e => setFilter(e.target.value)}
-             type="text"
-             placeholder={placeholder}
-             value={filter}
-             required/>
+      <input
+        onChange={e => setFilter(e.target.value)}
+        type="text"
+        placeholder={placeholder}
+        value={filter}
+        required
+      />
       <div className="values">
-      {values
-       .map((v, i) => [v, i])
-       .filter(([v]) => v.toLowerCase().includes(filter.toLowerCase()))
-       .slice(0, max || values.length)
-       .map(([v, i]) => (
-         <div key={i}
-              onClick={() => onClick(i)}>
-           {v}
-         </div>
-       ))}
+        {values
+          .map((v, i) => [v, i])
+          .filter(([v]) => v.toLowerCase().includes(filter.toLowerCase()))
+          .slice(0, max || values.length)
+          .map(([v, i]) => (
+            <div key={i} onClick={() => onClick(i)}>
+              {v}
+            </div>
+          ))}
       </div>
     </Container>
   );
@@ -31,13 +39,16 @@ const DropdownSearch = ({placeholder, values, onClick, max, close, height}) => {
 const Container = styled.div`
   position: relative;
   display: inline-block;
-  input:focus + .values, input:valid + .values, .values:hover, .values:focus {
+  input:focus + .values,
+  input:valid + .values,
+  .values:hover,
+  .values:focus {
     visibility: visible;
   }
   input {
-   border: 1px solid lightgrey;
-   border-radius: 2px;
-   padding: 5px;
+    border: 1px solid lightgrey;
+    border-radius: 2px;
+    padding: 5px;
   }
   input:invalid {
     drop-shadow: none;
@@ -59,8 +70,8 @@ const Container = styled.div`
       box-sizing: border-box;
       padding: 5px;
       transition: background 0.3s;
-    &:hover {
-      background: ${colors.turbulence};
+      &:hover {
+        background: ${colors.turbulence};
       }
     }
   }

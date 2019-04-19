@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'components/Modal';
 import EditProject from './components/EditProject';
+import {
+  Button, BasicForm, BasicInput, Header, ButtonSmallSubtle, colors, Card, BasicTextarea
+} from 'styles';
+import ButtonSpinner from 'components/ButtonSpinner';
+import ProjectCard from 'components/ProjectCard';
 
 const Admin = (props) => {
   const classroom_id = props.match.params.classroom_id;
@@ -24,32 +29,26 @@ const Admin = (props) => {
   const [addingRole, setAddingRole] = useState(false);
   return (
     <div>
-      <h1>{props.name}</h1>
-      <button onClick={() => setModalTarget("editClassroom")}>Edit Name</button>
-      <form onSubmit={handleAddProject}>
-        <input type="text" name="name" placeholder="name"/>
-        <input type="text" name="description" placeholder="description"/>
-        <button type="submit">Add Project</button>
-      </form>
-      <div>
-        {props.projects.map(proj => (
-          <div key={proj.id}>
-            <span>{proj.name}</span>
-            <span> Description: {proj.description.substring(0, 20)}...</span>
-            <span>
-              {proj.roles.map(({name, slots, empty, id}) => (
-                <div key={id}>
-                  {name + " (" + empty + "): "}
-                  <span>
-                    {slots.map(slot => <span key={slot.id}>{slot.user_name || "empty"}</span>)}
-                    {" "}
-                  </span>
-                </div>
-              ))}
-            </span>
-            <button onClick={() => {setModalTarget("editProject"); setEditId(proj.id);}}>
-              Edit Project</button>
-          </div>
+      <Header>
+        <h1>
+          {props.name}
+          <ButtonSmallSubtle onClick={() => setModalTarget("editClassroom")}>
+            edit
+          </ButtonSmallSubtle>
+        </h1>
+        <div style={{display: "flex", alignItems: "center"}}>
+          <ButtonSmallSubtle bg={colors.thunderhead}
+                             style={{margin: "0"}} >
+            settings
+          </ButtonSmallSubtle>
+        </div>
+      </Header>
+      <Button onClick={() => setModalTarget("addProject")}>Add Project</Button>
+      <div style={{display: "flex", flexFlow: "row wrap", justifyContent: "flex-start"}}>
+        {props.projects.map(project => (
+          <ProjectCard key={project.id}
+                       project={project}
+                       onClick={() => {setModalTarget("editProject"); setEditId(project.id);}}/>
         ))}
       </div>
       {modalTarget &&
@@ -58,15 +57,28 @@ const Admin = (props) => {
            switch (modalTarget) {
            case "editClassroom":
              return (
-               <form onSubmit={handleEditClassroom}>
-                 <input type="text" name="name" palceholder="name" defaultValue={props.name}/>
-                 <button type="submit">Edit Classroom</button>
-               </form>
+               <BasicForm onSubmit={handleEditClassroom}>
+                 <h2>Edit Classroom Name</h2>
+                 <BasicInput type="text" name="name" palceholder="name" defaultValue={props.name}/>
+                 <ButtonSpinner type="submit"
+                                loading={props.editingClassroom}>
+                   edit
+                 </ButtonSpinner>
+               </BasicForm>
              );
            case "editProject":
              const project = props.projects.find(({id}) => id === editId);
              return (
                <EditProject {...{project, classroom_id, }} {...props} />
+             );
+           case "addProject":
+             return (
+               <BasicForm onSubmit={handleAddProject}>
+                 <h2>Add Project</h2>
+                 <BasicInput type="text" name="name" placeholder="name"/>
+                 <BasicTextarea type="text" name="description" placeholder="description"/>
+                 <Button type="submit">Add Project</Button>
+               </BasicForm>
              );
            default:
              return null;

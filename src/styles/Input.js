@@ -42,3 +42,54 @@ export const SubtleTextarea = styled.textarea`
     background: ${colors.cloud};
   }
 `;
+
+export const BasicInput = styled.input`
+  color: #1a1a1a;
+  font-size: 1rem;
+  border: none;
+  outline: none;
+  text-align: center;
+  height: 40px;
+  width: 268px;
+  margin: 5px 0;
+  border: solid 1px #48484841;
+  border-radius: 4px;
+  transition: border-color 0.3s;
+  &:hover {
+    border-color: ${colors.thunderhead};
+  }
+  &:focus {
+    border-color: ${colors.antimatter};
+  }
+`;
+
+export const BasicTextarea = styled.textarea`
+  color: #1a1a1a;
+  font-size: 1rem;
+  border: none;
+  outline: none;
+  width: 100%;
+  margin: 5px 0;
+  border: solid 1px #48484841;
+  border-radius: 4px;
+  transition: border-color 0.3s;
+  padding: 5px;
+  max-width: 400px;
+  &:hover {
+    border-color: ${colors.thunderhead};
+  }
+  &:focus {
+    border-color: ${colors.antimatter};
+  }
+`;
+
+export const BasicForm = styled.form`
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+width: 100%;
+* {
+  margin-bottom: 20px;
+}
+`;

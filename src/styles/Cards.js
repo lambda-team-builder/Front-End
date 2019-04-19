@@ -1,7 +1,8 @@
 import { colors } from './theme.js';
 import styled from 'styled-components';
 
-export const Card = styled.div.attrs(({bg, shadow}) => ({
+export const Card = styled.div.attrs(({bg, shadow, ...props}) => ({
+  ...props,
   bg: bg || colors.turbulence,
   shadow: shadow || colors.thunderhead,
 }))`

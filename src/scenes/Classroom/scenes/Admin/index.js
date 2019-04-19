@@ -7,6 +7,7 @@ import {
 import ButtonSpinner from 'components/ButtonSpinner';
 import ProjectCard from 'components/ProjectCard';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const Admin = (props) => {
   const classroom_id = props.match.params.classroom_id;
@@ -31,6 +32,13 @@ const Admin = (props) => {
   return (
     <div>
       <Header>
+        <div style={{display: "flex", alignItems: "center"}}>
+          <Link to="/home">
+            <ButtonSmallSubtle>
+              home
+            </ButtonSmallSubtle>
+          </Link>
+        </div>
         <h1>
           {props.name}
           <ButtonSmallSubtle onClick={() => setModalTarget("editClassroom")}>

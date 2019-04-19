@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Modal from 'components/Modal';
 import ProjectCard from 'components/ProjectCard';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import {
   Header, ButtonSmallSubtle, colors
 } from 'styles';
@@ -17,6 +18,13 @@ const User = (props) => {
   return (
     <div>
       <Header>
+        <div style={{display: "flex", alignItems: "center"}}>
+          <Link to="/home">
+            <ButtonSmallSubtle>
+              home
+            </ButtonSmallSubtle>
+          </Link>
+        </div>
         <h1>{props.name}</h1>
         <div style={{display: "flex", alignItems: "center"}}>
           <ButtonSmallSubtle bg={colors.thunderhead}>

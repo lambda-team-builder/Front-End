@@ -8,7 +8,7 @@ import Modal from 'components/Modal';
 import Admin from './scenes/Admin';
 import Join from './scenes/Join';
 import User from './scenes/User';
-import Loading from './scenes/Loading';
+import Loading from '../../components/Loading';
 
 const Classroom = props => {
   const classroom_id = props.match.params.classroom_id;

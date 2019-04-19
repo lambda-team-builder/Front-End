@@ -9,6 +9,7 @@ import styled from "styled-components";
 import { colors } from './styles';
 import { connect } from 'react-redux';
 import { refresh } from './services/session/actions';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const App = props => {
   useEffect(() => {
@@ -19,8 +20,8 @@ const App = props => {
       <Route exact path="/" component={Landing} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
-      <Route path="/home" component={Home} />
-      <Route path="/c/:classroom_id/:name?/" component={Classroom} />
+      <ProtectedRoute path="/home" component={Home} />
+      <ProtectedRoute path="/c/:classroom_id/:name?/" component={Classroom} />
     </AppDiv>
   );
 };

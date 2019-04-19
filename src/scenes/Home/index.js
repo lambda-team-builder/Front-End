@@ -13,6 +13,7 @@ import slugify from "slugify";
 import Modal from "../../components/Modal";
 import styled from "styled-components";
 import { Header, Button, ButtonSmallSubtle, Card, colors, BasicInput } from '../../styles';
+import ButtonSpinner from '../../components/ButtonSpinner';
 
 const classroomUrl = (id, name) => `/c/${id}/${slugify(name)}`;
 
@@ -80,11 +81,11 @@ const Home = props => {
             <div>
               <StyledH2>Admin Classrooms</StyledH2>
               <ClassroomContainer>
-                {props.adminClassrooms.map(cr => (
-                  <LinkNoDec key={cr.id} to={classroomUrl(cr.id, cr.name)}>
+                {props.adminClassrooms.map(({classroom_id, classroom_name}) => (
+                  <LinkNoDec key={classroom_id} to={classroomUrl(classroom_id, classroom_name)}>
                     <ClassroomCard>
                       <ClassroomName>
-                        {cr.name}
+                        {classroom_name}
                       </ClassroomName>
                     </ClassroomCard>
                   </LinkNoDec>
@@ -147,9 +148,11 @@ const Home = props => {
                     name="password"
                     placeholder="password"
                   />
-                  <Button type="submit" bg={colors.antimatter} >
+                  <ButtonSpinner type="submit"
+                                 bg={colors.antimatter}
+                                 loading={props.creatingClassroom}>
                     create
-                  </Button>
+                  </ButtonSpinner>
                 </StyledForm>
               );
             default:

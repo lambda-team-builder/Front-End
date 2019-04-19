@@ -24,4 +24,7 @@ export const Spinner = styled(SpinnerSVG)`
   position: absolute;
   right: 0;
   height: 50%;
+  path {
+    fill: white;
+  }
 `;

@@ -14,7 +14,7 @@ const Classroom = props => {
   useEffect(() => {
     props.getClassroom(classroom_id);
   }, [classroom_id]);
-  if ((props.id || props.id === 0) && !props.gettingClassroom) {
+  if (props.id === classroom_id*1) {
     if (props.is_admin === true) {
       return <Admin {...props} />;
     } else if (props.is_admin === false) {

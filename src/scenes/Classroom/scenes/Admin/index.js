@@ -59,7 +59,7 @@ const Admin = (props) => {
            case "editClassroom":
              return (
                <form onSubmit={handleEditClassroom}>
-                 <input type="text" name="name" palceholder="name"/>
+                 <input type="text" name="name" palceholder="name" defaultValue={props.name}/>
                  <button type="submit">Edit Classroom</button>
                </form>
              );

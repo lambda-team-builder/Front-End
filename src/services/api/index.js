@@ -25,6 +25,10 @@ export const login = ({email, password}) => {
   return axios.put(`${API_URL}/auth/login`, {email, password});
 };
 
+export const refreshJWT = () => {
+  return axiosWithAuth().get(`${API_URL}/auth/refresh`);
+};
+
 // projects
 export const createProject = ({name, description}) => {
   return axiosWithAuth().post(`${API_URL}/projects/`, {name, description});

@@ -159,3 +159,31 @@ export const joinClassroom = (classroom_id, {password}) => dispatch => {
     })
     .catch(error => dispatch({ type: JOIN_CLASSROOM_FAILURE, error: error}));
 };
+
+export const JOIN_SLOT_START = 'JOIN_SLOT_START';
+export const JOIN_SLOT_SUCCESS = 'JOIN_SLOT_SUCCESS';
+export const JOIN_SLOT_FAILURE = 'JOIN_SLOT_FAILURE';
+
+export const joinSlot = (classroom_id, member_slot_id) => dispatch => {
+  dispatch({ type: JOIN_SLOT_START });
+  return api.joinMemberSlot(member_slot_id)
+    .then(res => {
+      return getClassroom(classroom_id)(dispatch)
+        .then(() => dispatch({ type: JOIN_SLOT_SUCCESS, payload: res.data }));
+    })
+    .catch(error => dispatch({ type: JOIN_SLOT_FAILURE, error: error}));
+};
+
+export const LEAVE_SLOT_START = 'LEAVE_SLOT_START';
+export const LEAVE_SLOT_SUCCESS = 'LEAVE_SLOT_SUCCESS';
+export const LEAVE_SLOT_FAILURE = 'LEAVE_SLOT_FAILURE';
+
+export const leaveSlot = (classroom_id, member_slot_id) => dispatch => {
+  dispatch({ type: LEAVE_SLOT_START });
+  return api.leaveMemberSlot(member_slot_id)
+    .then(res => {
+      return getClassroom(classroom_id)(dispatch)
+        .then(() => dispatch({ type: LEAVE_SLOT_SUCCESS, payload: res.data }));
+    })
+    .catch(error => dispatch({ type: LEAVE_SLOT_FAILURE, error: error}));
+};

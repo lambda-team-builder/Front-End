@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { colors, Card } from '../../styles';;
 
@@ -9,8 +9,10 @@ const completedColor = (empty, total) => (
 );
 
 const ProjectCard = ({project, onClick, user_id, ...props}) => {
+  const [containsUser, setContainsUser] = useState(false);
   return (
     <StyledCard onClick={onClick}>
+      {containsUser && <Member>member</Member>}
       <Title bg={completedColor(...project.roles.reduce(([totalEmpty, totalSlots], {empty, slots}) => (
         [totalEmpty + empty, totalSlots + slots.length]), [0, 0]))}>
           {project.name}
@@ -21,9 +23,14 @@ const ProjectCard = ({project, onClick, user_id, ...props}) => {
       </div>
       <RolesDiv>
         {project.roles.map(({name, slots, empty, id}) => {
+          let slotContainsUser = false;
+          if (slots.findIndex(slot => user_id>=0 && user_id === slot.user_id) >= 0) {
+            !containsUser && setContainsUser(true);
+            slotContainsUser = true;
+          }
           return <Role key={id}
                        bg={completedColor(empty, slots.length)}
-                       containsUser={slots.findIndex(slot => user_id>=0 && user_id === slot.user_id)}>
+                       containsUser={slotContainsUser}>
                    {`${name} ${slots.length - empty}/${slots.length}`}
                  </Role>;
         })}
@@ -35,6 +42,7 @@ const ProjectCard = ({project, onClick, user_id, ...props}) => {
 const StyledCard = styled(Card)`
   width: 100%;
   max-width: 400px;
+  position: relative;
   // align-self: flex-start;
   margin: 20px 10px;
   cursor: pointer;
@@ -58,7 +66,7 @@ const RolesDiv = styled.div`
 const Role = styled.span.attrs(({bg, containsUser, ...props}) => ({
   ...props,
   bg: bg || "transparent",
-  containsUser: containsUser >= 0 && colors.thunderhead || "transparent",
+  containsUser: containsUser && colors.antimatter || "transparent",
 }))`
   background: ${props => props.bg};
   padding: 6px 10px;
@@ -77,6 +85,13 @@ const Title = styled.h3.attrs(({bg, ...props}) => ({
               0 -1px 0 ${colors.thunderhead} inset;
   margin: 0 0 10px 0;
   padding: 0;
+`;
+
+const Member = styled.div`
+  position: absolute;
+  left: 10px;
+  top: 5px;
+  color: ${colors.thunderhead};
 `;
 
 export default ProjectCard;

@@ -29,3 +29,18 @@ export const login = ({ email, password }) => dispatch => {
     })
     .catch(error => dispatch({ type: LOGIN_FAILURE, error: error }));
 };
+
+export const REFRESH_START = "REFRESH_START";
+export const REFRESH_SUCCESS = "REFRESH_SUCCESS";
+export const REFRESH_FAILURE = "REFRESH_FAILURE";
+
+export const refresh = () => dispatch => {
+  dispatch({ type: REFRESH_START });
+  return api
+    .refreshJWT()
+    .then(res => {
+      localStorage.setItem("userToken", res.data.token);
+      dispatch({ type: REFRESH_SUCCESS, payload: res.data });
+    })
+    .catch(error => dispatch({ type: REFRESH_FAILURE, error: error }));
+};

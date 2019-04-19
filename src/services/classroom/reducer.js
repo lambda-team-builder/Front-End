@@ -8,6 +8,8 @@ import {
   DELETE_SLOT_START, DELETE_SLOT_SUCCESS, DELETE_SLOT_FAILURE,
   CREATE_ROLE_START, CREATE_ROLE_SUCCESS, CREATE_ROLE_FAILURE,
   JOIN_CLASSROOM_START, JOIN_CLASSROOM_SUCCESS, JOIN_CLASSROOM_FAILURE,
+  JOIN_SLOT_START, JOIN_SLOT_SUCCESS, JOIN_SLOT_FAILURE,
+  LEAVE_SLOT_START, LEAVE_SLOT_SUCCESS, LEAVE_SLOT_FAILURE,
   ADD_USER_TO_SLOT_START, ADD_USER_TO_SLOT_SUCCESS, ADD_USER_TO_SLOT_FAILURE,
   GET_MEMBERS_START, GET_MEMBERS_SUCCESS, GET_MEMBERS_FAILURE,
 } from './actions.js';
@@ -38,6 +40,10 @@ const initialState = {
   updateProjectError: null,
   joiningClassroom: false,
   joinClassroomError: null,
+  joiningSlot: false,
+  joinSlotError: null,
+  leavingSlot: false,
+  leaveSlotError: null,
 };
 
 const transformRoles = roles => {
@@ -309,6 +315,42 @@ export const classroomReducer = (state = initialState, action) => {
       ...state,
       joiningClassroom: false,
       joinClassroomError: action.error,
+    };
+  case JOIN_SLOT_START:
+    return {
+      ...state,
+      joiningSlot: true,
+      joinSlotError: null,
+    };
+  case JOIN_SLOT_SUCCESS:
+    return {
+      ...state,
+      joiningSlot: false,
+      joinSlotError: null,
+    };
+  case JOIN_SLOT_FAILURE:
+    return {
+      ...state,
+      joiningSlot: false,
+      joinSlotError: action.error,
+    };
+  case LEAVE_SLOT_START:
+    return {
+      ...state,
+      leavingSlot: true,
+      leaveSlotError: null,
+    };
+  case LEAVE_SLOT_SUCCESS:
+    return {
+      ...state,
+      leavingSlot: false,
+      leaveSlotError: null,
+    };
+  case LEAVE_SLOT_FAILURE:
+    return {
+      ...state,
+      leavingSlot: false,
+      leaveSlotError: action.error,
     };
   default:
     return state;

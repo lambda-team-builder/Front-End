@@ -1,4 +1,4 @@
-import React, { component } from "react";
+import React, { useEffect } from "react";
 import Login from "./scenes/Login";
 import { Route } from "react-router-dom";
 import Register from "./scenes/Register";
@@ -7,8 +7,13 @@ import Classroom from "./scenes/Classroom";
 import Landing from "./scenes/Landing";
 import styled from "styled-components";
 import { colors } from './styles';
+import { connect } from 'react-redux';
+import { refresh } from './services/session/actions';
 
 const App = props => {
+  useEffect(() => {
+    props.refresh();
+  }, []);
   return (
     <AppDiv>
       <Route exact path="/" component={Landing} />
@@ -20,7 +25,7 @@ const App = props => {
   );
 };
 
-export default App;
+export default connect(_ => ({}), { refresh })(App);
 
 const AppDiv = styled.div`
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",

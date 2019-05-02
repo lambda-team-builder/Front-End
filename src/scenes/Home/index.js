@@ -229,7 +229,7 @@ const ClassroomCard = styled(Card)`
   align-items: center;
   text-decoration: none;
   &:hover {
-    background: #C4C4C6;
+    background: ${colors.antimatter};
   }
 `;
 
@@ -255,10 +255,10 @@ const ClassroomName = styled.div`
 `;
 
 const RoleName = styled.div `
-  background: ${colors.reflection};
+  background: #2a4d69;
   padding: 6px 10px;
   color: ${colors.turbulence};
-  box-shadow: 0 -5px 0 ${colors.antimatter} inset;
+  box-shadow: 0 -5px 0 	#adcbe3 inset;
   font-weight: bold;
   border-radius: 5px;
   margin: 5px 10px;

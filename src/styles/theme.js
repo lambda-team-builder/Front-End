@@ -9,7 +9,7 @@ export const colors = {
   eclipse: "#353A50",
   forest: "#e7eff6",
   sky: "#BBD1EB",
-  antimatter: "#2E3574",
+  antimatter: "#4b86b4",
   evening: "#555869",
   dusk: "#2A2E43",
   midnight: "#232530",

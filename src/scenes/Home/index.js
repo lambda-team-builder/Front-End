@@ -199,7 +199,7 @@ const StyledForm = styled.form`
 const StyledInput = styled.input`
   display: inline-block;
   box-sizing: border-box;
-  background-color: rgb(255, 255, 255);
+  background-color: #e7eff6;
   border: none;
   width: 200px;
   color: black;

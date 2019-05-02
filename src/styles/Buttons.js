@@ -21,6 +21,7 @@ export const Button = styled.button.attrs(({ bg, fg, shadow, ...props }) => ({
   cursor: pointer;
   transition: box-shadow 0.3s;
   position: relative;
+  border: 1px solid red;
   &:hover {
     box-shadow: 0 0 10px ${props => props.shadow} inset;
   }
@@ -68,6 +69,7 @@ export const LandingButton = styled.button.attrs(
   cursor: pointer;
   transition: box-shadow 0.3s;
   position: relative;
+  border: 1px solid green;
   &:hover {
     box-shadow: 0 0 10px ${props => props.shadow} inset;
   }

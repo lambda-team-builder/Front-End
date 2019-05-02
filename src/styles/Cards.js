@@ -8,7 +8,7 @@ export const Card = styled.div.attrs(({bg, shadow, ...props}) => ({
 }))`
   padding: 20px;
   border-radius: 10px;
-  background: ${props => props.bg};
+  background: ${colors.forest};
   border: 1px solid ${props => props.shadow};
   color: ${colors.midnight};
   box-shadow: 0 2px 0 ${props => props.shadow};

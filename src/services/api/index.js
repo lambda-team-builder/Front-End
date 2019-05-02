@@ -1,8 +1,6 @@
 import axios from 'axios';
 
-const backendHost = (process.env.NODE_ENV === "development"
-                     ? "http://localhost:5000"
-                     : "https://lambda-team-builder.herokuapp.com");
+const backendHost = "https://lambda-team-builder.herokuapp.com";
 
 const API_URL = `${backendHost}/api`;
 

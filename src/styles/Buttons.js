@@ -4,7 +4,7 @@ import { colors } from "./theme.js";
 export const Button = styled.button.attrs(({ bg, fg, shadow, ...props }) => ({
   ...props,
   bg: bg || colors.forest,
-  fg: fg || colors.white,
+  fg: fg || colors.black,
   shadow: shadow || colors.dusk
 }))`
   background: ${props => props.bg};

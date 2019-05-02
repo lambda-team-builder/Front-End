@@ -7,7 +7,7 @@ export const colors = {
   reflection: "#455B63",
   storm: "#454F63",
   eclipse: "#353A50",
-  forest: "#4C6A2D",
+  forest: "#e7eff6",
   sky: "#BBD1EB",
   antimatter: "#2E3574",
   evening: "#555869",
